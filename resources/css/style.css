@@ -1,0 +1,186 @@
+/* 1. VARIABLES Y ESTILOS GLOBALES */
+:root {
+    --fs-green: #2ecc71; 
+    --fs-dark: #2c3e50;
+    --fs-light-green: #e8f8f5; 
+    --fs-black: #000000;
+}
+
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* 2. NAVBAR Y LOGO */
+.navbar-transparente {
+    background-color: transparent !important;
+    padding: 20px 0;
+    transition: background 0.3s ease;
+}
+
+.navbar-brand img {
+    height: 70px; /* Tamaño ajustado para que no se vea chiquito */
+    width: auto;
+    max-width: 180px;
+    object-fit: contain;
+}
+
+/* 3. SECCIÓN HERO */
+.hero-section {
+    /* CORRECCIÓN DE RUTA: 
+       Si tu CSS está en /css/estilos.css, esta ruta sube un nivel y entra a resources */
+    background-image: url('../resources/img/index.png'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh; 
+    display: flex;
+    align-items: center;
+    color: white;
+    position: relative;
+}
+
+/* Superposición oscura */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.4); 
+    z-index: 1;
+}
+
+.hero-section .container,
+.hero-section .container-fluid {
+    position: relative;
+    z-index: 2;
+    padding-left: 8%;
+    padding-right: 8%;
+}
+
+.hero-title {
+    font-size: 3.8rem;
+    font-weight: 700;
+    line-height: 1.1;
+    max-width: 800px;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin-bottom: 30px;
+}
+
+/* 4. COMPONENTES (BOTONES E ICONOS) */
+.btn-fs-primary {
+    background-color: var(--fs-green);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-fs-primary:hover {
+    background-color: #27ae60;
+    color: white;
+}
+
+.hero-icon-circle {
+    width: 130px;
+    height: 130px;
+    background-color: rgba(232, 248, 245, 0.9);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--fs-dark);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    margin-bottom: 25px;
+}
+
+.hero-icon-circle img {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 5px;
+}
+
+/* 5. SECCIÓN CÓMO FUNCIONA / TARJETAS */
+.how-it-works-section {
+    padding: 80px 0;
+}
+
+.section-title {
+    color: var(--fs-green);
+    font-weight: bold;
+    margin-bottom: 50px;
+}
+
+.fs-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.fs-card:hover {
+    transform: translateY(-5px);
+}
+
+.fs-card-icon {
+    width: 80px;
+    height: 80px;
+    margin: 20px auto;
+}
+
+.fs-card-body {
+    text-align: left;
+    padding: 20px;
+}
+
+.fs-card-number-title {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.fs-card-text {
+    font-size: 0.95rem;
+    color: #6c757d;
+}
+
+/* 6. FOOTER */
+.fs-footer {
+    background-color: var(--fs-black) !important;
+    color: #ffffff;
+    padding: 60px 0 20px;
+}
+
+.fs-footer hr {
+    border-color: #333;
+}
+
+/* 7. RESPONSIVE */
+@media (max-width: 991px) {
+    .hero-section {
+        padding-top: 100px;
+        text-align: center;
+    }
+    .hero-title {
+        font-size: 2.2rem;
+    }
+    .hero-icon-circle {
+        margin: 10px auto !important;
+    }
+    .navbar-collapse {
+        background: rgba(0,0,0,0.9);
+        padding: 20px;
+        border-radius: 10px;
+    }
+}
