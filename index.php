@@ -3,22 +3,25 @@
 <!-- libreria de iconos -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
-<header class="hero-section">
+<header class="hero-section" style="background-image: url('resources/img/index.png'); background-size: cover; background-position: center; background-repeat: no-repeat; min-height: 100vh; display: flex; align-items: center; position: relative;"">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-8">
+        <div class="row align-items-center min-vh-100">
+            <!-- Columna del texto - más ancha y con padding izquierdo -->
+            <div class="col-lg-7 col-md-12 hero-content">
                 <h1 class="hero-title mb-3">Alimentando comunidades que necesitan, reduciendo desperdicios.</h1>
                 <p class="hero-subtitle">Juntos transformamos excedentes en oportunidades para quienes más lo necesitan.</p>
-                <button class="btn btn-fs-primary btn-lg mt-3" type="button">¡Únete Hoy!</button>
+                <button class="btn btn-fs-primary btn-lg mt-3" type="button">¡Iniciemos!</button>
             </div>
-            <div class="col-lg-4 d-flex flex-column align-items-end pe-5">
+            
+            <!-- Columna de los círculos - alineados a la derecha -->
+            <div class="col-lg-5 col-md-12 d-flex flex-column align-items-center align-items-lg-end mt-5 mt-lg-0">
                 <div class="hero-icon-circle">
-                    <i class="fa-solid fa-utensils fs-2 mb-2"></i>
-                    Donar Excedentes
+                    <i class="fa-solid fa-utensils"></i>
+                    <span>Donar Excedentes</span>
                 </div>
                 <div class="hero-icon-circle">
-                    <i class="fa-solid fa-hand-holding-heart fs-2 mb-2"></i>
-                    Organización Social
+                    <i class="fa-solid fa-hand-holding-heart"></i>
+                    <span>Organización Social</span>
                 </div>
             </div>
         </div>
@@ -27,41 +30,46 @@
 
 <section class="how-it-works-section bg-light">
     <div class="container text-center">
-        <h2 class="section-title">¿Cómo Funciona Foodshare?</h2>
-        
-        <div class="row g-4 justify-content-center">
-            <div class="col-md-4 col-sm-12">
-                <div class="card h-100 fs-card">
-                    <div class="text-center mt-4">
-                        <i class="fa-solid fa-file-pen fs-1 text-success"></i>
+        <h2 class="section-title mb-5">¿Cómo Funciona Foodshare?</h2>
+        <div class="row g-5 justify-content-center">
+            <div class="col-md-4 col-sm-12 d-flex">
+                <div class="card h-100 fs-card w-100 border-0 shadow">
+                    <div class="text-center mt-5">
+                        <div class="card-icon-circle mx-auto">
+                            <i class="fa-solid fa-file-pen fs-1 text-success"></i>
+                        </div>
                     </div>
-                    <div class="card-body fs-card-body">
-                        <p class="fs-card-number-title">1. Publica tu excedente</p>
-                        <p class="fs-card-text card-text">Comidas y bebidas cercanas a caducar o que ya no se pueden guardar.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-4 col-sm-12">
-                <div class="card h-100 fs-card">
-                    <div class="text-center mt-4">
-                        <i class="fa-solid fa-calendar-check fs-1 text-success"></i>
-                    </div>
-                    <div class="card-body fs-card-body">
-                        <p class="fs-card-number-title">2. Reserva de ONG</p>
-                        <p class="fs-card-text card-text">Organizaciones sociales descubren y reservan tu publicación.</p>
+                    <div class="card-body fs-card-body text-center px-4 pb-5">
+                        <h3 class="fs-card-number-title mb-3">1. Publica tu excedente</h3>
+                        <p class="fs-card-text card-text mb-0">Comidas y bebidas cercanas a caducar o que ya no se pueden guardar.</p>
                     </div>
                 </div>
             </div>
             
-            <div class="col-md-4 col-sm-12">
-                <div class="card h-100 fs-card">
-                    <div class="text-center mt-4">
-                        <i class="fa-solid fa-truck-ramp-box fs-1 text-success"></i>
+            <div class="col-md-4 col-sm-12 d-flex">
+                <div class="card h-100 fs-card w-100 border-0 shadow">
+                    <div class="text-center mt-5">
+                        <div class="card-icon-circle mx-auto">
+                            <i class="fa-solid fa-calendar-check fs-1 text-success"></i>
+                        </div>
                     </div>
-                    <div class="card-body fs-card-body">
-                        <p class="fs-card-number-title">3. Alimenta y transforma</p>
-                        <p class="fs-card-text card-text">Se recogerá el alimento y se donará a la comunidad de personas necesitadas.</p>
+                    <div class="card-body fs-card-body text-center px-4 pb-5">
+                        <h3 class="fs-card-number-title mb-3">2. Reserva de ONG</h3>
+                        <p class="fs-card-text card-text mb-0">Organizaciones sociales descubren y reservan tu publicación.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 col-sm-12 d-flex">
+                <div class="card h-100 fs-card w-100 border-0 shadow">
+                    <div class="text-center mt-5">
+                        <div class="card-icon-circle mx-auto">
+                            <i class="fa-solid fa-truck-ramp-box fs-1 text-success"></i>
+                        </div>
+                    </div>
+                    <div class="card-body fs-card-body text-center px-4 pb-5">
+                        <h3 class="fs-card-number-title mb-3">3. Alimenta y transforma</h3>
+                        <p class="fs-card-text card-text mb-0">Se recogerá el alimento y se donará a la comunidad de personas necesitadas.</p>
                     </div>
                 </div>
             </div>
