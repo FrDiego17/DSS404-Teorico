@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Entrega;
 use App\Models\Reserva;
+use App\Http\Requests\ConfirmarEntregaRequest;
 use Illuminate\Http\Request;
 
 class EntregaController extends Controller
@@ -26,19 +27,13 @@ class EntregaController extends Controller
         return response()->json($entregas);
     }
 
-    public function store(Request $request)
+    public function store(ConfirmarEntregaRequest $request)
     {
         $organizacion = $request->user()->organizacion;
 
         if (!$organizacion) {
             return response()->json(['message' => 'No tienes una organización vinculada'], 404);
         }
-
-        $request->validate([
-            'reserva_id'          => 'required|exists:reservas,id',
-            'codigo_verificacion' => 'required|string|max:50',
-            'comentarios_entrega' => 'nullable|string',
-        ]);
 
         $reserva = Reserva::where('id', $request->reserva_id)
             ->where('organizacion_id', $organizacion->id)

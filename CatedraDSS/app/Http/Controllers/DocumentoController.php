@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Documento;
+use App\Http\Requests\SubirDocumentoRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -23,18 +24,13 @@ class DocumentoController extends Controller
         return response()->json($documentos);
     }
 
-    public function store(Request $request)
+    public function store(SubirDocumentoRequest $request)
     {
         $organizacion = $request->user()->organizacion;
 
         if (!$organizacion) {
             return response()->json(['message' => 'No tienes una organización vinculada'], 404);
         }
-
-        $request->validate([
-            'documento' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
-            'tipo'      => 'required|in:pdf,imagen,otro',
-        ]);
 
         $file = $request->file('documento');
         $nombre = time() . '_' . $file->getClientOriginalName();

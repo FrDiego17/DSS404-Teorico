@@ -9,10 +9,9 @@ class OrganizacionSeeder extends Seeder
 {
     public function run(): void
     {
-        
-        // ONG verificada
+        // ONG verificada (vinculada al user_id = 2)
         Organizacion::create([
-            'user_id'             => 1,
+            'user_id'             => 2,
             'nombre_oficial'      => 'Fundación Esperanza',
             'numero_registro'     => 'ONG-00001',
             'representante_legal' => 'Juan Pérez',
@@ -21,9 +20,9 @@ class OrganizacionSeeder extends Seeder
             'estado_verificacion' => 'verificada',
         ]);
 
-        // ONG pendiente
+        // ONG pendiente (vinculada al user_id = 3)
         Organizacion::create([
-            'user_id'             => 2,
+            'user_id'             => 3,
             'nombre_oficial'      => 'Manos Solidarias',
             'numero_registro'     => 'ONG-00002',
             'representante_legal' => 'María López',
@@ -32,9 +31,9 @@ class OrganizacionSeeder extends Seeder
             'estado_verificacion' => 'pendiente',
         ]);
 
-        // ONG rechazada
+        // ONG rechazada (vinculada al user_id = 4)
         Organizacion::create([
-            'user_id'             => 3,
+            'user_id'             => 4,
             'nombre_oficial'      => 'Ayuda Comunitaria',
             'numero_registro'     => 'ONG-00003',
             'representante_legal' => 'Carlos Ramírez',

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Calificacion;
 use App\Models\Entrega;
+use App\Http\Requests\CalificacionRequest;
 use Illuminate\Http\Request;
 
 class CalificacionController extends Controller
@@ -26,19 +27,13 @@ class CalificacionController extends Controller
         return response()->json($calificaciones);
     }
 
-    public function store(Request $request)
+    public function store(CalificacionRequest $request)
     {
         $organizacion = $request->user()->organizacion;
 
         if (!$organizacion) {
             return response()->json(['message' => 'No tienes una organización vinculada'], 404);
         }
-
-        $request->validate([
-            'entrega_id' => 'required|exists:entregas,id',
-            'puntuacion' => 'required|integer|min:1|max:5',
-            'comentario' => 'nullable|string|max:500',
-        ]);
 
         $entrega = Entrega::where('id', $request->entrega_id)->first();
 

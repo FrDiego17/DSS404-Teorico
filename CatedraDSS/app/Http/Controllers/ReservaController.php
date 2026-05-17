@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Reserva;
 use App\Models\Donacion;
+use App\Http\Requests\StoreReservaRequest;
 use Illuminate\Http\Request;
 
 class ReservaController extends Controller
@@ -40,7 +41,7 @@ class ReservaController extends Controller
         return response()->json($reserva);
     }
 
-    public function store(Request $request, $donacion_id)
+    public function store(StoreReservaRequest $request, $donacion_id)
     {
         $organizacion = $request->user()->organizacion;
 
