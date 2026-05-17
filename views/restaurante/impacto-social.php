@@ -1,5 +1,5 @@
 <?php
-// views/ong/impacto-social.php
+// views/restaurante/impacto-social.php
 $domingo_savio = [
     [
         'titulo' => 'Programa de rescate',

@@ -1,5 +1,5 @@
 <?php
-// views/ong/mis-excedentes.php
+// views/restaurante/mis-excedentes.php
 $platos_preparados = [
     [
         'titulo' => 'Platos Preparados',

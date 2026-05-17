@@ -1,5 +1,5 @@
 <?php
-// views/ong/estadisticas.php
+// views/restaurante/estadisticas.php
 $estadisticas = [
     ['titulo' => 'Platos Preparados', 'cantidad' => 48, 'color' => '#e66a6a', 'porcentaje' => 60],
     ['titulo' => 'Frutas y Verduras', 'cantidad' => 124, 'color' => '#df9d5f', 'porcentaje' => 31],
