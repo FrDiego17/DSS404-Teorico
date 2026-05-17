@@ -1,5 +1,5 @@
 <?php
-// views/ong/historial.php
+// views/restaurante/historial.php
 
 $esta_semana = [
     [

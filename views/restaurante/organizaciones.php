@@ -1,5 +1,5 @@
 <?php
-// views/ong/organizaciones.php
+// views/restaurante/organizaciones.php
 $organizaciones = [
     [
         'titulo' => 'Dona tu comida',

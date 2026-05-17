@@ -1,5 +1,5 @@
 <?php
-// views/ong/inicio-comercio.php
+// views/restaurante/inicio-comercio.php
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -36,35 +36,35 @@
     <div class="row features-grid mb-5">
         <!-- Card 1 -->
         <div class="col-md-4 mb-4">
-            <div class="elegant-card" onclick="location.href='/DSS404-TEORICO/views/ong/estadisticas.php'">
+            <div class="elegant-card" onclick="location.href='/DSS404-TEORICO/views/restaurante/estadisticas.php'">
                 <div class="card-icon-elegant">
                     <i class="fas fa-chart-line"></i>
                 </div>
                 <h4>Estadística de Donaciones</h4>
                 <p>Revisa las donaciones que has realizado mensualmente de forma gráfica.</p>
-                <a href="/DSS404-TEORICO/views/ong/estadisticas.php" class="btn-elegant">Ver Donaciones</a>
+                <a href="/DSS404-TEORICO/views/restaurante/estadisticas.php" class="btn-elegant">Ver Donaciones</a>
             </div>
         </div>
         <!-- Card 2 -->
         <div class="col-md-4 mb-4">
-            <div class="elegant-card" onclick="location.href='/DSS404-TEORICO/views/ong/impacto-social.php'">
+            <div class="elegant-card" onclick="location.href='/DSS404-TEORICO/views/restaurante/impacto-social.php'">
                 <div class="card-icon-elegant">
                     <i class="fas fa-hands-holding-circle"></i>
                 </div>
                 <h4>Impacto Social</h4>
                 <p>Historias de cambios que se han logrado con los aportes de las donaciones.</p>
-                <a href="/DSS404-TEORICO/views/ong/impacto-social.php" class="btn-elegant">Ver Impacto</a>
+                <a href="/DSS404-TEORICO/views/restaurante/impacto-social.php" class="btn-elegant">Ver Impacto</a>
             </div>
         </div>
         <!-- Card 3 -->
         <div class="col-md-4 mb-4">
-            <div class="elegant-card" onclick="location.href='/DSS404-TEORICO/views/ong/organizaciones.php'">
+            <div class="elegant-card" onclick="location.href='/DSS404-TEORICO/views/restaurante/organizaciones.php'">
                 <div class="card-icon-elegant">
                     <i class="fas fa-hand-holding-heart"></i>
                 </div>
                 <h4>Organizaciones Sociales</h4>
                 <p>Conoce las organizaciones registradas que pueden recoger tus excedentes.</p>
-                <a href="/DSS404-TEORICO/views/ong/organizaciones.php" class="btn-elegant">Ver Organizaciones</a>
+                <a href="/DSS404-TEORICO/views/restaurante/organizaciones.php" class="btn-elegant">Ver Organizaciones</a>
             </div>
         </div>
     </div>
@@ -73,7 +73,7 @@
     <div class="publications-section">
         <div class="section-header">
             <h3><i class="fas fa-newspaper me-2"></i> Mis Publicaciones Recientes</h3>
-            <a href="/DSS404-TEORICO/views/ong/mis-excedentes.php" class="btn-new">Ver más ></a>
+            <a href="/DSS404-TEORICO/views/restaurante/mis-excedentes.php" class="btn-new">Ver más ></a>
         </div>
         
         <div id="publicationsGridHome">

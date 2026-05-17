@@ -53,7 +53,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 <nav class="navbar navbar-expand-lg fixed-top bg-white shadow-sm" style="padding: 10px 0;">
     <div class="container position-relative">
         <!-- Espacio para tu logo a la izquierda -->
-        <a class="navbar-brand" href="/DSS404-TEORICO/views/ong/inicio-comercio.php">
+        <a class="navbar-brand" href="/DSS404-TEORICO/views/restaurante/inicio-comercio.php">
             <img src="/DSS404-TEORICO/resources/img/logoheader.png" alt="Logo Foodshare" style="height: 45px; width: auto; display: block;">
         </a>
 
@@ -66,7 +66,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         <div class="collapse navbar-collapse" id="navFoodshare">
             <ul class="navbar-nav nav-center">
                 <li class="nav-item">
-                    <a class="nav-link text-dark <?php echo ($current_page == 'inicio-comercio.php') ? 'fw-bold border-bottom border-success' : ''; ?>" href="/DSS404-TEORICO/views/ong/inicio-comercio.php">Inicio</a>
+                    <a class="nav-link text-dark <?php echo ($current_page == 'inicio-comercio.php') ? 'fw-bold border-bottom border-success' : ''; ?>" href="/DSS404-TEORICO/views/restaurante/inicio-comercio.php">Inicio</a>
                 </li>
                 
                 <li class="nav-item dropdown">
@@ -74,20 +74,20 @@ $current_page = basename($_SERVER['PHP_SELF']);
                         Publicar
                     </a>
                     <ul class="dropdown-menu dropdown-menu-user" aria-labelledby="navbarDropdownPublicar">
-                        <li><a class="dropdown-item" href="/DSS404-TEORICO/views/ong/inicio-comercio.php?openModal=1">Platos Preparados</a></li>
-                        <li><a class="dropdown-item" href="/DSS404-TEORICO/views/ong/inicio-comercio.php?openModal=2">Frutas y Verduras</a></li>
-                        <li><a class="dropdown-item" href="/DSS404-TEORICO/views/ong/inicio-comercio.php?openModal=3">Panadería y Repostería</a></li>
-                        <li><a class="dropdown-item" href="/DSS404-TEORICO/views/ong/inicio-comercio.php?openModal=4">Lácteos y Embutidos</a></li>
-                        <li><a class="dropdown-item" href="/DSS404-TEORICO/views/ong/inicio-comercio.php?openModal=5">Carnes</a></li>
-                        <li><a class="dropdown-item" href="/DSS404-TEORICO/views/ong/inicio-comercio.php?openModal=6">Bebidas y Jugos</a></li>
+                        <li><a class="dropdown-item" href="/DSS404-TEORICO/views/restaurante/inicio-comercio.php?openModal=1">Platos Preparados</a></li>
+                        <li><a class="dropdown-item" href="/DSS404-TEORICO/views/restaurante/inicio-comercio.php?openModal=2">Frutas y Verduras</a></li>
+                        <li><a class="dropdown-item" href="/DSS404-TEORICO/views/restaurante/inicio-comercio.php?openModal=3">Panadería y Repostería</a></li>
+                        <li><a class="dropdown-item" href="/DSS404-TEORICO/views/restaurante/inicio-comercio.php?openModal=4">Lácteos y Embutidos</a></li>
+                        <li><a class="dropdown-item" href="/DSS404-TEORICO/views/restaurante/inicio-comercio.php?openModal=5">Carnes</a></li>
+                        <li><a class="dropdown-item" href="/DSS404-TEORICO/views/restaurante/inicio-comercio.php?openModal=6">Bebidas y Jugos</a></li>
                     </ul>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link text-dark <?php echo ($current_page == 'mis-excedentes.php') ? 'fw-bold border-bottom border-success' : ''; ?>" href="/DSS404-TEORICO/views/ong/mis-excedentes.php">Mis Excedentes</a>
+                    <a class="nav-link text-dark <?php echo ($current_page == 'mis-excedentes.php') ? 'fw-bold border-bottom border-success' : ''; ?>" href="/DSS404-TEORICO/views/restaurante/mis-excedentes.php">Mis Excedentes</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark <?php echo ($current_page == 'historial.php') ? 'fw-bold border-bottom border-success' : ''; ?>" href="/DSS404-TEORICO/views/ong/historial.php">Historial</a>
+                    <a class="nav-link text-dark <?php echo ($current_page == 'historial.php') ? 'fw-bold border-bottom border-success' : ''; ?>" href="/DSS404-TEORICO/views/restaurante/historial.php">Historial</a>
                 </li>
             </ul>
         </div>
@@ -101,7 +101,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <li><a class="dropdown-item" href="#">Mi Perfil</a></li>
                 <li><a class="dropdown-item" href="#">Configuración</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item text-danger" href="/DSS404-TEORICO/views/ong/inicio-comercio.php">Cerrar Sesión</a></li>
+                <li><a class="dropdown-item text-danger" href="/DSS404-TEORICO/views/restaurante/inicio-comercio.php">Cerrar Sesión</a></li>
             </ul>
         </div>
 
