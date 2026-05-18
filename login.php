@@ -31,7 +31,7 @@
                         <div class="col-md-6 login-image">
                             <div class="login-image-overlay">
                                 <div class="login-image-content">
-                                    <img src="../DSS404-Teorico/resources/img/logofooter.png" alt="Foodshare" class="login-logo" onerror="this.style.display='none'">
+                                    <img src="resources/img/logofooter.png" alt="Foodshare" class="login-logo" onerror="this.style.display='none'">
                                     <h2>¡Bienvenido de vuelta!</h2>
                                     <p>Inicia sesión en tu cuenta para gestionar tu organización, recibir excedentes de alimentos y continuar ayudando a quienes más lo necesitan.</p>
                                     <div class="mt-4">
