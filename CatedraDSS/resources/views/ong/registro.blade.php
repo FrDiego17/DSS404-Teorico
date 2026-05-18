@@ -82,7 +82,7 @@
                                             <div class="input-group">
                                                 <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
                                                 <input type="password" class="form-control" id="password" name="password"
-                                                       placeholder="Mínimo 6 caracteres">
+                                                       placeholder="Mínimo 8 caracteres">
                                             </div>
                                         </div>
 
@@ -206,7 +206,7 @@
             return;
         }
         if (password.length < 6) {
-            alert('La contraseña debe tener al menos 6 caracteres.');
+            alert('La contraseña debe tener al menos 8 caracteres.');
             return;
         }
         if (password !== confirm) {
