@@ -4,18 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\Organizacion;
 use App\Models\Donacion;
+use App\Models\Comercio;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
     public function dashboard()
     {
-        $ongsPendientes = Organizacion::where('estado_verificacion', 'pendiente')->count();
+        $ongsPendientes  = Organizacion::where('estado_verificacion', 'pendiente')->count();
         $totalDonaciones = Donacion::count();
         $totalKgSalvados = Donacion::where('estado', 'entregada')->sum('peso_estimado_kg');
 
         return view('admin.dashboard', compact('ongsPendientes', 'totalDonaciones', 'totalKgSalvados'));
     }
+
+    //Organizaciones
 
     public function index()
     {
@@ -23,13 +26,12 @@ class AdminController extends Controller
             ->orderBy('nombre_oficial', 'asc')
             ->get();
 
-        return response()->json($ongs);
+        return view('admin.organizaciones', compact('ongs'));
     }
 
     public function show($id)
     {
         $organizacion = Organizacion::with(['user', 'documentos', 'reservas.donacion'])->findOrFail($id);
-
         return response()->json($organizacion);
     }
 
@@ -40,7 +42,7 @@ class AdminController extends Controller
             ->orderBy('created_at', 'asc')
             ->get();
 
-        return response()->json($ongs);
+        return view('admin.organizaciones', compact('ongs'));
     }
 
     public function verificarOng(Request $request, $id)
@@ -59,11 +61,39 @@ class AdminController extends Controller
             $user->update(['estado' => 'rechazado']);
         }
 
+        return redirect()->route('admin.ongs.index')
+            ->with('success', $request->accion === 'verificada'
+                ? "Organización \"{$organizacion->nombre_oficial}\" verificada exitosamente."
+                : "Organización \"{$organizacion->nombre_oficial}\" rechazada.");
+    }
+
+    //Comercio
+
+    public function comerciosIndex()
+    {
+        $comercios = Comercio::with('user')->orderBy('nombre_comercial', 'asc')->get();
+        return view('admin.comercios', compact('comercios'));
+    }
+
+    //Publicaciones
+
+    public function publicacionesIndex()
+    {
+        $donaciones = Donacion::with(['categoria', 'comercio'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('admin.publicaciones', compact('donaciones'));
+    }
+
+    //Reportes
+
+    public function reportes()
+    {
         return response()->json([
-            'message'      => $request->accion === 'verificada'
-                ? 'Organización verificada exitosamente'
-                : 'Organización rechazada',
-            'organizacion' => $organizacion,
+            'ongs_pendientes'  => Organizacion::where('estado_verificacion', 'pendiente')->count(),
+            'total_donaciones' => Donacion::count(),
+            'kg_salvados'      => Donacion::where('estado', 'entregada')->sum('peso_estimado_kg'),
         ]);
     }
 }
