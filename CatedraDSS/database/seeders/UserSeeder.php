@@ -34,7 +34,7 @@ class UserSeeder extends Seeder
             'email'    => 'comercio@foodshare.com',
             'password' => Hash::make('comercio123'),
             'rol'      => 'comercio',
-            'estado'   => 'pendiente',
+            'estado'   => 'activo',
         ]);
 
     }
