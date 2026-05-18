@@ -14,26 +14,27 @@ use App\Http\Controllers\ComercioController;
 use App\Http\Controllers\CategoriaController;
 
 
-// ─── Rutas Públicas ───────────────────────────────────────────────────────────
+//Rutas Públicas
 
 Route::get('/', fn() => view('welcome'))->name('home');
 
 Route::get('/login',  [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
+Route::get('/registro',          fn() => view('auth.registro'))->name('auth.registro');
 Route::get('/registro/ong',  [AuthController::class, 'showRegistroOng'])->name('ong.registro');
 Route::post('/registro/ong', [AuthController::class, 'registroOng'])->name('ong.registro.post');
 
 Route::get('/registro/comercio',  [AuthController::class, 'showRegistroCom'])->name('comercio.registro');
 Route::post('/registro/comercio', [AuthController::class, 'registroCom'])->name('comercio.registro.post');
 
-// ─── Rutas Protegidas ─────────────────────────────────────────────────────────
+//Rutas Protegidas
 
 Route::middleware('auth')->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    // ── ONG ────────────────────────────────────────────────────────────────────
+    // Vistas ONG
     Route::prefix('ong')->name('ong.')->middleware('role:organizacion')->group(function () {
 
         Route::get('/dashboard',      fn() => view('ong.dashboard'))->name('dashboard');
@@ -58,33 +59,30 @@ Route::middleware('auth')->group(function () {
         Route::put('/api/perfil', [OrganizacionController::class, 'actualizar'])->name('api.perfil.update');
 
         Route::middleware('organizacion.verificada')->group(function () {
-            // Documentos
             Route::get('/documentos',          [DocumentoController::class, 'index'])->name('documentos.index');
             Route::post('/documentos/subir',   [DocumentoController::class, 'store'])->name('documentos.store');
             Route::delete('/documentos/{id}',  [DocumentoController::class, 'destroy'])->name('documentos.destroy');
 
-            // Reservas
             Route::get('/api/reservas',                   [ReservaController::class, 'index'])->name('api.reservas.index');
             Route::get('/api/reservas/{id}',              [ReservaController::class, 'show'])->name('api.reserva.show');
             Route::post('/reservas/crear/{donacion_id}',  [ReservaController::class, 'store'])->name('reservas.store');
             Route::post('/reservas/{id}/cancelar',        [ReservaController::class, 'cancelar'])->name('reservas.cancelar');
 
-            // Entregas
             Route::get('/api/entregas',        [EntregaController::class, 'index'])->name('api.entregas.index');
             Route::post('/entregas/confirmar', [EntregaController::class, 'store'])->name('entregas.store');
 
-            // Calificaciones
             Route::get('/api/calificaciones',      [CalificacionController::class, 'index'])->name('api.calificaciones.index');
             Route::post('/calificaciones/guardar', [CalificacionController::class, 'store'])->name('calificaciones.store');
         });
     });
 
-    // ── COMERCIO ───────────────────────────────────────────────────────────────
+    //Vistas Comercio 
     Route::prefix('comercio')->name('comercio.')->middleware('role:comercio')->group(function () {
 
         Route::get('/dashboard',        [ComercioController::class, 'dashboard'])->name('dashboard');
         Route::get('/donaciones',       [ComercioController::class, 'donaciones'])->name('donaciones');
         Route::post('/donaciones',      [ComercioController::class, 'storeDonacion'])->name('donaciones.store');
+        Route::put('/donaciones/{id}',  [ComercioController::class, 'updateDonacion'])->name('donaciones.update');
         Route::get('/estadisticas',     [ComercioController::class, 'estadisticas'])->name('estadisticas');
         Route::get('/impacto',          [ComercioController::class, 'impacto'])->name('impacto');
         Route::get('/organizaciones',   [ComercioController::class, 'organizaciones'])->name('organizaciones');
@@ -93,24 +91,21 @@ Route::middleware('auth')->group(function () {
         Route::put('/api/perfil',  [ComercioController::class, 'actualizar'])->name('api.perfil.update');
     });
 
-    // ── ADMIN ──────────────────────────────────────────────────────────────────
+    // Vistas Admin
     Route::prefix('admin')->name('admin.')->middleware('role:admin')->group(function () {
 
         Route::get('/dashboard',                    [AdminController::class, 'dashboard'])->name('dashboard');
 
-        // Organizaciones (vistas web)
         Route::get('/ongs',                         [AdminController::class, 'index'])->name('ongs.index');
         Route::get('/ongs/pendientes',              [AdminController::class, 'ongsPendientes'])->name('ongs.pendientes');
         Route::get('/ongs/{id}',                    [AdminController::class, 'show'])->name('ongs.show');
         Route::post('/ongs/{id}/verificar',         [AdminController::class, 'verificarOng'])->name('ongs.verificar');
 
-        // Comercios (vistas web)
         Route::get('/comercios',                    [AdminController::class, 'comerciosIndex'])->name('comercios.index');
+        Route::post('/comercios/{id}/verificar',    [AdminController::class, 'verificarComercio'])->name('comercios.verificar');
 
-        // Publicaciones (vistas web)
         Route::get('/publicaciones',                [AdminController::class, 'publicacionesIndex'])->name('publicaciones.index');
 
-        // Reportes
         Route::get('/reportes',         [ReporteController::class, 'index'])->name('reportes.index');
         Route::get('/reportes/periodo', [ReporteController::class, 'porPeriodo'])->name('reportes.periodo');
         Route::get('/reportes/exportar',[ReporteController::class, 'exportar'])->name('reportes.exportar');

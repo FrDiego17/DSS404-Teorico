@@ -51,11 +51,12 @@ class ComercioController extends Controller
     public function storeDonacion(Request $request)
     {
         $request->validate([
-            'categoria_id' => 'required|exists:categorias,id',
-            'titulo'       => 'required|string|max:255',
-            'descripcion'  => 'nullable|string',
-            'cantidad'     => 'required|integer|min:1',
-            'fecha_limite' => 'required|date|after:now',
+            'categoria_id'     => 'required|exists:categorias,id',
+            'titulo'           => 'required|string|max:255',
+            'descripcion'      => 'nullable|string',
+            'cantidad'         => 'required|integer|min:1',
+            'peso_estimado_kg' => 'nullable|numeric|min:0.01',
+            'fecha_limite'     => 'required|date|after:now',
         ]);
 
         $comercio = Auth::user()->comercio;
@@ -65,16 +66,43 @@ class ComercioController extends Controller
         }
 
         Donacion::create([
-            'comercio_id'  => $comercio->id,
-            'categoria_id' => $request->categoria_id,
-            'titulo'       => $request->titulo,
-            'descripcion'  => $request->descripcion,
-            'cantidad'     => $request->cantidad,
-            'fecha_limite' => $request->fecha_limite,
-            'estado'       => 'disponible',
+            'comercio_id'      => $comercio->id,
+            'categoria_id'     => $request->categoria_id,
+            'titulo'           => $request->titulo,
+            'descripcion'      => $request->descripcion,
+            'cantidad'         => $request->cantidad,
+            'peso_estimado_kg' => $request->peso_estimado_kg ?? 0,
+            'fecha_limite'     => $request->fecha_limite,
+            'estado'           => 'publicada',
         ]);
 
         return redirect()->route('comercio.donaciones')->with('success', '¡Excedente publicado con éxito!');
+    }
+
+    public function updateDonacion(Request $request, $id)
+    {
+        $request->validate([
+            'categoria_id'     => 'required|exists:categorias,id',
+            'titulo'           => 'required|string|max:255',
+            'descripcion'      => 'nullable|string',
+            'cantidad'         => 'required|integer|min:1',
+            'peso_estimado_kg' => 'nullable|numeric|min:0',
+            'fecha_limite'     => 'required|date|after:now',
+        ]);
+
+        $comercio = Auth::user()->comercio;
+        $donacion = Donacion::where('id', $id)->where('comercio_id', $comercio->id)->firstOrFail();
+
+        $donacion->update([
+            'categoria_id'     => $request->categoria_id,
+            'titulo'           => $request->titulo,
+            'descripcion'      => $request->descripcion,
+            'cantidad'         => $request->cantidad,
+            'peso_estimado_kg' => $request->peso_estimado_kg ?? 0,
+            'fecha_limite'     => $request->fecha_limite,
+        ]);
+
+        return back()->with('success', '¡Publicación actualizada con éxito!');
     }
 
     //Estadísticas

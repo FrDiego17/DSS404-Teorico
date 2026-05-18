@@ -75,6 +75,28 @@ class AdminController extends Controller
         return view('admin.comercios', compact('comercios'));
     }
 
+    public function verificarComercio(Request $request, $id)
+    {
+        $request->validate([
+            'accion' => 'required|in:aprobado,rechazado',
+        ]);
+
+        $comercio = Comercio::findOrFail($id);
+        $comercio->update(['estado' => $request->accion]);
+
+        $user = $comercio->user;
+        if ($request->accion === 'aprobado') {
+            $user->update(['estado' => 'activo']);
+        } else {
+            $user->update(['estado' => 'rechazado']);
+        }
+
+        return redirect()->route('admin.comercios.index')
+            ->with('success', $request->accion === 'aprobado'
+                ? "Comercio \"{$comercio->nombre_comercial}\" aprobado exitosamente."
+                : "Comercio \"{$comercio->nombre_comercial}\" rechazado.");
+    }
+
     //Publicaciones
 
     public function publicacionesIndex()

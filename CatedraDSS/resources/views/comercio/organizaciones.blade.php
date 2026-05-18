@@ -10,13 +10,25 @@
     <div class="row">
         @forelse($organizaciones as $org)
             <div class="col-md-4 mb-4">
-                <div style="background:white; border-radius:16px; padding:24px; box-shadow:0 4px 20px rgba(0,0,0,0.06); border:1px solid #e8f5e9; height:100%;">
-                    <h5 style="font-weight:800; color:#1a2a32; text-align:center; margin-bottom:4px;">{{ $org->nombre_oficial }}</h5>
-                    <p style="font-size:12px; color:#45b66f; text-align:center; font-weight:600; margin-bottom:12px;">Verificada ✓</p>
-                    <div style="font-size:13px; color:#718096;">
-                        <p class="mb-1"><i class="fas fa-map-marker-alt me-2 text-success"></i>{{ $org->direccion }}</p>
-                        <p class="mb-1"><i class="fas fa-phone me-2 text-success"></i>{{ $org->telefono_contacto }}</p>
-                        <p class="mb-0"><i class="fas fa-user me-2 text-success"></i>{{ $org->representante_legal }}</p>
+                <div class="fs-pub-card" style="display:flex; flex-direction:column; justify-content:space-between; height:100%;">
+                    <div>
+                        <div class="pub-category-icon" style="background:#45b66f22; color:#45b66f; width:50px; height:50px; display:flex; align-items:center; justify-content:center; border-radius:50%; margin-bottom:15px; font-size:24px;">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <h5 style="font-weight:800; color:#1a2a32; margin-bottom:4px;">{{ $org->nombre_oficial }}</h5>
+                        <p style="font-size:12px; color:#45b66f; font-weight:600; margin-bottom:16px;">
+                            <i class="fas fa-check-circle me-1"></i>Organización Verificada
+                        </p>
+                        
+                        <div class="pub-meta mb-2">
+                            <i class="fas fa-map-marker-alt" style="width:20px; text-align:center;"></i> {{ $org->direccion }}
+                        </div>
+                        <div class="pub-meta mb-2">
+                            <i class="fas fa-phone" style="width:20px; text-align:center;"></i> {{ $org->telefono_contacto }}
+                        </div>
+                        <div class="pub-meta mb-3">
+                            <i class="fas fa-user" style="width:20px; text-align:center;"></i> {{ $org->representante_legal }}
+                        </div>
                     </div>
                 </div>
             </div>

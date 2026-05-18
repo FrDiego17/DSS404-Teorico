@@ -73,7 +73,7 @@ class AuthController extends Controller
         $request->validate([
             'nombre'               => 'required|string|max:255',
             'email'                => 'required|email|unique:users,email',
-            'password'             => 'required|min:6|confirmed',
+            'password'             => 'required|min:8|confirmed',
             'nit'                  => 'required|string|max:20',
             'registro_asociacion'  => 'required|string|max:20',
             'departamento'         => 'required|string',
@@ -110,13 +110,19 @@ class AuthController extends Controller
         return view('comercio.registro');
     }
 
+    // Muestra el selector de tipo de cuenta
+    public function showRegistro()
+    {
+        return view('auth.registro');
+    }
+
     public function registroCom(Request $request)
     {
         $request->validate([
             'nombre_comercial'         => 'required|string|max:255',
             'nombre_registrado'        => 'required|string|max:255',
             'email'                    => 'required|email|unique:users,email',
-            'password'                 => 'required|min:6|confirmed',
+            'password'                 => 'required|min:8|confirmed',
             'nit'                      => 'required|string|unique:comercios,nit',
             'no_autorizacion_sanitaria'=> 'required|string',
             'telefono'                 => 'nullable|string|max:20',

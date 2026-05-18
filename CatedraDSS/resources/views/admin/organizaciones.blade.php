@@ -38,11 +38,11 @@
                         <td>{{ $org->direccion }}</td>
                         <td>
                             @if($org->estado_verificacion === 'verificada')
-                                <span style="background:#e8f5e9; color:#2e7d32; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:600;">✓ Verificada</span>
+                                <span style="background:#e8f5e9; color:#2e7d32; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:600;">Verificada</span>
                             @elseif($org->estado_verificacion === 'rechazada')
-                                <span style="background:#fee2e2; color:#dc2626; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:600;">✗ Rechazada</span>
+                                <span style="background:#fee2e2; color:#dc2626; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:600;">Rechazada</span>
                             @else
-                                <span style="background:#fff3cd; color:#e65100; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:600;">⏳ Pendiente</span>
+                                <span style="background:#fff3cd; color:#e65100; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:600;">Pendiente</span>
                             @endif
                         </td>
                         <td>
