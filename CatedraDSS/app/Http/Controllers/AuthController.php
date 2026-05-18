@@ -83,7 +83,7 @@ class AuthController extends Controller
             'hora_cierre'          => 'required',
         ]);
 
-        User::create([
+        $user = User::create([
             'name'     => $request->nombre,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
@@ -91,7 +91,17 @@ class AuthController extends Controller
             'estado'   => 'pendiente',
         ]);
 
-        return redirect()->route('login')->with('success', '¡Registro exitoso! Tu cuenta está pendiente de aprobación.');
+        \App\Models\Organizacion::create([
+        'user_id'             => $user->id,
+        'nombre_oficial'      => $request->nombre,
+        'numero_registro'     => $request->registro_asociacion,
+        'representante_legal' => 'Pendiente de actualizar',
+        'telefono_contacto'   => 'Sin especificar',
+        'direccion'           => $request->direccion . ', ' . $request->departamento,
+        'estado_verificacion' => 'pendiente',
+    ]);
+
+    return redirect()->route('login')->with('success', '¡Registro exitoso! Tu cuenta está pendiente de aprobación.');
     }
 
     // Muestra el formulario de registro de comercio
