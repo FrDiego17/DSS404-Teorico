@@ -91,7 +91,7 @@
                 <div class="timeline-line"></div>
                 <div class="history-list">`;
             items.forEach(item => {
-                const estado = item.estado === 'entregada' ? 'completado' : item.estado;
+                const estado = item.reserva_estado === 'completada' ? 'completado' : item.reserva_estado;
                 const icono = getIcono(item.categoria?.nombre);
                 const fecha = new Date(item.updated_at).toLocaleDateString('es-SV');
                 html += `
@@ -100,9 +100,9 @@
                         <div class="pub-content">
                             <div class="d-flex align-items-center">
                                 <div class="pub-title">${item.titulo}</div>
-                                <span class="historial-qty ms-2">x${item.cantidad}</span>
                             </div>
                             <div class="pub-description">${item.descripcion ?? ''}</div>
+                            ${item.reserva_notas ? `<div style="font-size:12px; font-weight:600; color:#2b6cb0; margin-top:4px;"><i class="fas fa-info-circle me-1"></i> ${item.reserva_notas}</div>` : ''}
                         </div>
                         <div class="historial-status-badge">
                             <span class="date-text">${fecha}</span>

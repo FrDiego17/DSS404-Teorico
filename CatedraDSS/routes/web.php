@@ -65,6 +65,7 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/api/voluntarios',           [\App\Http\Controllers\VoluntarioController::class, 'index'])->name('api.voluntarios.index');
         Route::post('/api/voluntarios',          [\App\Http\Controllers\VoluntarioController::class, 'store'])->name('api.voluntarios.store');
+        Route::put('/api/voluntarios/{id}',      [\App\Http\Controllers\VoluntarioController::class, 'update'])->name('api.voluntarios.update');
         Route::delete('/api/voluntarios/{id}',   [\App\Http\Controllers\VoluntarioController::class, 'destroy'])->name('api.voluntarios.destroy');
 
         Route::get('/api/perfil', [OrganizacionController::class, 'perfil'])->name('api.perfil');
@@ -83,6 +84,8 @@ Route::middleware('auth')->group(function () {
             Route::get('/api/entregas',        [EntregaController::class, 'index'])->name('api.entregas.index');
             Route::post('/entregas/confirmar', [EntregaController::class, 'store'])->name('entregas.store');
 
+            Route::post('/reservas/{id}/asignar-voluntario', [ReservaController::class, 'asignarVoluntario'])->name('reservas.asignar');
+
             Route::get('/api/calificaciones',      [CalificacionController::class, 'index'])->name('api.calificaciones.index');
             Route::post('/calificaciones/guardar', [CalificacionController::class, 'store'])->name('calificaciones.store');
         });
@@ -95,12 +98,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/donaciones',       [ComercioController::class, 'donaciones'])->name('donaciones');
         Route::post('/donaciones',      [ComercioController::class, 'storeDonacion'])->name('donaciones.store');
         Route::put('/donaciones/{id}',  [ComercioController::class, 'updateDonacion'])->name('donaciones.update');
+        Route::delete('/donaciones/{id}', [ComercioController::class, 'destroyDonacion'])->name('donaciones.destroy');
         Route::get('/estadisticas',     [ComercioController::class, 'estadisticas'])->name('estadisticas');
         Route::get('/impacto',          [ComercioController::class, 'impacto'])->name('impacto');
         Route::get('/organizaciones',   [ComercioController::class, 'organizaciones'])->name('organizaciones');
 
         Route::get('/api/perfil',  [ComercioController::class, 'perfil'])->name('api.perfil');
         Route::put('/api/perfil',  [ComercioController::class, 'actualizar'])->name('api.perfil.update');
+        Route::post('/donaciones/verificar-entrega', [ComercioController::class, 'verificarEntrega'])->name('donaciones.verificar');
     });
 
     // Vistas Admin

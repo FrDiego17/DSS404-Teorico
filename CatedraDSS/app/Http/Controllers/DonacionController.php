@@ -92,22 +92,55 @@ class DonacionController extends Controller
     // Historial de donaciones para la ONG autenticada (entregadas/canceladas)
     public function historialOng(Request $request)
     {
-        $donaciones = Donacion::with(['comercio', 'categoria'])
-            ->whereIn('estado', ['entregada', 'cancelada', 'vencida'])
+        $organizacion = $request->user()->organizacion;
+
+        if (!$organizacion) {
+            return response()->json([]);
+        }
+
+        $reservas = \App\Models\Reserva::with(['donacion.comercio', 'donacion.categoria', 'voluntario'])
+            ->where('organizacion_id', $organizacion->id)
+            ->whereIn('estado', ['completada', 'cancelada'])
             ->orderBy('updated_at', 'desc')
             ->get();
 
-        return response()->json($donaciones);
+        $resultado = $reservas->map(function ($reserva) {
+            $don = $reserva->donacion->toArray();
+            $don['reserva_id']    = $reserva->id;
+            $don['reserva_estado']= $reserva->estado;
+            $don['voluntario']    = $reserva->voluntario;
+            $don['reserva_notas'] = $reserva->notas;
+            $don['updated_at']    = $reserva->updated_at; 
+            return $don;
+        });
+
+        return response()->json($resultado);
     }
 
-    // Donaciones reservadas (para la sección "Mis Reservas")
+    // Donaciones reservadas 
     public function reservadosOng(Request $request)
     {
-        $donaciones = Donacion::with(['comercio', 'categoria'])
-            ->where('estado', 'reservada')
-            ->orderBy('fecha_limite', 'asc')
+        $organizacion = $request->user()->organizacion;
+
+        if (!$organizacion) {
+            return response()->json([]);
+        }
+
+        $reservas = \App\Models\Reserva::with(['donacion.comercio', 'donacion.categoria', 'voluntario'])
+            ->where('organizacion_id', $organizacion->id)
+            ->where('estado', 'activa')
+            ->orderBy('created_at', 'desc')
             ->get();
 
-        return response()->json($donaciones);
+        $resultado = $reservas->map(function ($reserva) {
+            $don = $reserva->donacion->toArray();
+            $don['reserva_id']    = $reserva->id;
+            $don['reserva_estado']= $reserva->estado;
+            $don['voluntario']    = $reserva->voluntario;
+            $don['reserva_notas'] = $reserva->notas;
+            return $don;
+        });
+
+        return response()->json($resultado);
     }
 }

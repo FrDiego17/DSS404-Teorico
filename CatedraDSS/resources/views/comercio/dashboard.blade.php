@@ -72,9 +72,12 @@
                     ];
                     $icono = $iconos[$don->categoria->nombre ?? ''] ?? 'fa-box-open';
                     $hora = $don->fecha_limite ? \Carbon\Carbon::parse($don->fecha_limite)->format('d/m/Y H:i') : '--/--/---- --:--';
+                    $esReservada = $don->estado === 'reservada';
+                    $esEntregada = $don->estado === 'entregada';
+                    $esVencida   = $don->estado === 'publicada' && $don->fecha_limite && \Carbon\Carbon::parse($don->fecha_limite)->isPast();
                 @endphp
                 <div class="col-md-4 mb-4">
-                    <div class="fs-pub-card" style="display:flex; flex-direction:column; justify-content:space-between; height:100%; background:white; border-radius:16px; padding:24px; box-shadow:0 4px 20px rgba(0,0,0,0.06); border:1px solid #e8f5e9;">
+                    <div class="fs-pub-card" style="display:flex; flex-direction:column; justify-content:space-between; height:100%; background:white; border-radius:16px; padding:24px; box-shadow:0 4px 20px rgba(0,0,0,0.06); border:1px solid {{ $esEntregada ? '#c6f6d5' : ($esReservada ? '#bee3f8' : ($esVencida ? '#fed7d7' : '#e8f5e9')) }};">
                         <div>
                             <div class="pub-category-icon" style="background:#45b66f22; color:#45b66f; width:50px; height:50px; display:flex; align-items:center; justify-content:center; border-radius:50%; margin-bottom:15px; font-size:24px;">
                                 <i class="fas {{ $icono }}"></i>
@@ -82,6 +85,24 @@
                             <h5 style="font-weight:800; color:#1a2a32; margin-bottom:8px;">
                                 {{ $don->titulo }}
                                 <span class="badge bg-success ms-2" style="font-size:11px; vertical-align:middle;">{{ $don->cantidad }} uds</span>
+                                {{-- Badge de estado --}}
+                                @if($esEntregada)
+                                    <span class="badge ms-1" style="font-size:11px; vertical-align:middle; background:#c6f6d5; color:#22543d;">
+                                        ✅ Entregada
+                                    </span>
+                                @elseif($esReservada)
+                                    <span class="badge ms-1" style="font-size:11px; vertical-align:middle; background:#bee3f8; color:#2c5282;">
+                                        📦 Reservada
+                                    </span>
+                                @elseif($esVencida)
+                                    <span class="badge ms-1" style="font-size:11px; vertical-align:middle; background:#fed7d7; color:#9b2c2c;">
+                                        ⏳ Tiempo Agotado
+                                    </span>
+                                @else
+                                    <span class="badge ms-1" style="font-size:11px; vertical-align:middle; background:#fff3cd; color:#e65100;">
+                                        {{ ucfirst($don->estado) }}
+                                    </span>
+                                @endif
                             </h5>
                             <p style="font-size:13px; color:#718096; margin-bottom:16px;">{{ \Illuminate\Support\Str::limit($don->descripcion, 70) }}</p>
                             
@@ -89,9 +110,15 @@
                                 <i class="far fa-clock me-1"></i> Límite: {{ $hora }}
                             </div>
                         </div>
-                        <button class="pub-request-btn fs-pub-btn w-100" onclick='abrirModalEditar(@json($don))' style="background:#f8f9fa; color:#45b66f; border:1px solid #45b66f; padding:10px; border-radius:8px; font-weight:600; text-align:center; transition: all 0.3s; cursor:pointer;">
-                            Editar / Renovar <i class="fas fa-pencil-alt ms-1"></i>
-                        </button>
+                        @if(!$esEntregada)
+                            <button class="pub-request-btn fs-pub-btn w-100" onclick='abrirModalEditar(@json($don))' style="background:#f8f9fa; color:#45b66f; border:1px solid #45b66f; padding:10px; border-radius:8px; font-weight:600; text-align:center; transition: all 0.3s; cursor:pointer;">
+                                Editar / Renovar <i class="fas fa-pencil-alt ms-1"></i>
+                            </button>
+                        @else
+                            <div style="text-align:center; padding:10px; border-radius:8px; background:#f0fff4; color:#276749; font-size:13px; font-weight:600; border:1px solid #c6f6d5;">
+                                <i class="fas fa-check-double me-1"></i> Proceso completado
+                            </div>
+                        @endif
                     </div>
                 </div>
             @empty

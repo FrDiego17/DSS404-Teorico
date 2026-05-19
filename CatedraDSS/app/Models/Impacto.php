@@ -14,7 +14,8 @@ class Impacto extends Model
     protected $fillable = [
         'organizacion_id',
         'titulo',
-        'descripcion'
+        'descripcion',
+        'imagen'
     ];
 
     public function organizacion()

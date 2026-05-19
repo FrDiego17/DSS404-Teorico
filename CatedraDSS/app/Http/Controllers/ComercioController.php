@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Comercio;
 use App\Models\Donacion;
 use App\Models\Categoria;
+use App\Models\Entrega;
 use App\Models\Organizacion;
+use App\Models\Reserva;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,7 +22,9 @@ class ComercioController extends Controller
         $categorias = Categoria::all();
 
         if ($comercio) {
-            $donacionesRecientes = Donacion::with('categoria')
+            $donacionesRecientes = Donacion::with(['categoria', 'reservas' => function ($q) {
+                $q->where('estado', 'activa');
+            }])
                 ->where('comercio_id', $comercio->id)
                 ->orderBy('created_at', 'desc')
                 ->limit(5)
@@ -39,7 +43,9 @@ class ComercioController extends Controller
         $donaciones = [];
 
         if ($comercio) {
-            $donaciones = Donacion::with('categoria')
+            $donaciones = Donacion::with(['categoria', 'reservas' => function ($q) {
+                $q->where('estado', 'activa');
+            }])
                 ->where('comercio_id', $comercio->id)
                 ->orderBy('created_at', 'desc')
                 ->get();
@@ -103,6 +109,20 @@ class ComercioController extends Controller
         ]);
 
         return back()->with('success', '¡Publicación actualizada con éxito!');
+    }
+
+    public function destroyDonacion($id)
+    {
+        $comercio = Auth::user()->comercio;
+        $donacion = Donacion::where('id', $id)->where('comercio_id', $comercio->id)->firstOrFail();
+
+        if (in_array($donacion->estado, ['reservada', 'entregada'])) {
+            return back()->withErrors(['error' => 'No se puede eliminar una donación que ya fue reservada o entregada.']);
+        }
+
+        $donacion->delete();
+
+        return redirect()->route('comercio.donaciones')->with('success', 'Publicación eliminada correctamente.');
     }
 
     //Estadísticas
@@ -191,5 +211,68 @@ class ComercioController extends Controller
     {
         $comercios = Comercio::where('estado', 'aprobado')->get();
         return response()->json($comercios);
+    }
+
+    public function verificarEntrega(Request $request)
+    {
+        $request->validate([
+            'donacion_id' => 'required|integer',
+            'codigo'      => 'required|string|size:4',
+        ]);
+
+        $comercio = Auth::user()->comercio;
+
+        if (!$comercio) {
+            return response()->json(['message' => 'Comercio no encontrado'], 404);
+        }
+
+        // Buscar la donación que pertenece a este comercio (puede estar publicada o reservada)
+        $donacion = Donacion::where('id', $request->donacion_id)
+            ->where('comercio_id', $comercio->id)
+            ->whereIn('estado', ['publicada', 'reservada'])
+            ->first();
+
+        if (!$donacion) {
+            return response()->json(['message' => 'Donación no encontrada o no es válida para verificar'], 404);
+        }
+
+        // Buscar la reserva activa con ese código
+        $reserva = Reserva::where('donacion_id', $donacion->id)
+            ->where('estado', 'activa')
+            ->where('codigo_verificacion', $request->codigo)
+            ->where('codigo_usado', false)
+            ->first();
+
+        if (!$reserva) {
+            return response()->json(['message' => 'Código incorrecto o ya utilizado'], 422);
+        }
+
+        // Crear registro de entrega
+        Entrega::create([
+            'reserva_id'          => $reserva->id,
+            'fecha_entrega'       => now(),
+            'codigo_verificacion' => $request->codigo,
+            'comentarios_entrega' => 'Entrega verificada mediante código PIN.',
+        ]);
+
+        // Actualizar estados
+        $reserva->update([
+            'estado'       => 'completada',
+            'codigo_usado' => true,
+        ]);
+
+        // Verificar si la donación ya se puede dar por "entregada"
+        $quedanReservasActivas = Reserva::where('donacion_id', $donacion->id)
+            ->where('estado', 'activa')
+            ->exists();
+
+        if (($donacion->cantidad == 0 || $donacion->estado === 'reservada') && !$quedanReservasActivas) {
+            $donacion->update(['estado' => 'entregada']);
+        }
+
+        return response()->json([
+            'message'   => '¡Entrega verificada correctamente!',
+            'donacion'  => $donacion->titulo,
+        ]);
     }
 }

@@ -22,4 +22,9 @@ class Voluntario extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function reservas()
+    {
+        return $this->hasMany(Reserva::class);
+    }
 }

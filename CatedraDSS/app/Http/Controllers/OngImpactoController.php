@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Impacto;
+use Illuminate\Support\Facades\Storage;
 
 class OngImpactoController extends Controller
 {
@@ -23,6 +24,7 @@ class OngImpactoController extends Controller
         $request->validate([
             'titulo' => 'required|string|max:255',
             'descripcion' => 'required|string',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $organizacion = auth()->user()->organizacion;
@@ -31,10 +33,16 @@ class OngImpactoController extends Controller
             return redirect()->back()->with('error', 'No se encontró un perfil de organización asociado.');
         }
 
+        $rutaImagen = null;
+        if ($request->hasFile('imagen')) {
+            $rutaImagen = $request->file('imagen')->store('impactos', 'public');
+        }
+
         Impacto::create([
             'organizacion_id' => $organizacion->id,
             'titulo' => $request->titulo,
             'descripcion' => $request->descripcion,
+            'imagen' => $rutaImagen,
         ]);
 
         return redirect()->back()->with('success', '¡Historia de impacto publicada con éxito!');
@@ -46,6 +54,7 @@ class OngImpactoController extends Controller
         $request->validate([
             'titulo' => 'required|string|max:255',
             'descripcion' => 'required|string',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $organizacion = auth()->user()->organizacion;
@@ -54,10 +63,19 @@ class OngImpactoController extends Controller
             ->where('organizacion_id', $organizacion->id)
             ->firstOrFail();
 
-        $impacto->update([
+        $dataToUpdate = [
             'titulo' => $request->titulo,
             'descripcion' => $request->descripcion,
-        ]);
+        ];
+
+        if ($request->hasFile('imagen')) {
+            if ($impacto->imagen) {
+                Storage::disk('public')->delete($impacto->imagen);
+            }
+            $dataToUpdate['imagen'] = $request->file('imagen')->store('impactos', 'public');
+        }
+
+        $impacto->update($dataToUpdate);
 
         return redirect()->back()->with('success', '¡Historia de impacto actualizada correctamente!');
     }
@@ -71,6 +89,10 @@ class OngImpactoController extends Controller
         $impacto = Impacto::where('id', $id)
             ->where('organizacion_id', $organizacion->id)
             ->firstOrFail();
+
+        if ($impacto->imagen) {
+            Storage::disk('public')->delete($impacto->imagen);
+        }
 
         $impacto->delete();
 

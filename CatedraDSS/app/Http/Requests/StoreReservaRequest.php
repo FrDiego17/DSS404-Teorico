@@ -14,8 +14,10 @@ class StoreReservaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'donacion_id' => 'required|exists:donaciones,id',
-            'notas'       => 'nullable|string|max:500',
+            'donacion_id'       => 'required|exists:donaciones,id',
+            'notas'             => 'nullable|string|max:500',
+            'cantidad_reservada' => 'nullable|integer|min:1',
+            'voluntario_id'     => 'nullable|exists:voluntarios,id',
         ];
     }
 

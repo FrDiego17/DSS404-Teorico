@@ -22,6 +22,9 @@
         @forelse($impactosGlobales as $impacto)
             <div class="col-md-4 mb-4">
                 <div class="card h-100 shadow-sm border-0" style="border-radius: 16px; overflow: hidden;">
+                    @if($impacto->imagen)
+                        <img src="{{ asset('storage/' . $impacto->imagen) }}" alt="Impacto" style="width: 100%; height: 200px; object-fit: cover;">
+                    @endif
                     <div class="card-body p-4 d-flex flex-direction-column justify-content-between">
                         <div>
                             <div class="d-flex align-items-center mb-3">

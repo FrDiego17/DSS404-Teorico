@@ -72,7 +72,22 @@
                 </div>
             </div>
 
-            <button class="btn-fs-reservar" onclick="confirmarReserva()">
+            <div class="mb-3" style="margin-top:16px;">
+                <label style="font-size:13px; font-weight:700; color:#4a5568; display:block; margin-bottom:6px;">
+                    <i class="fas fa-boxes me-1 text-success"></i> Cantidad a reservar
+                    <span id="modalQtyMax" style="font-size:11px; color:#a0aec0; font-weight:400;"></span>
+                </label>
+                <input
+                    type="number"
+                    id="modalCantidad"
+                    class="form-control"
+                    min="1"
+                    value="1"
+                    style="border-radius:8px; font-size:14px; text-align:center; font-weight:700;"
+                >
+            </div>
+
+            <button class="btn-fs-reservar" id="btnConfirmarReserva" onclick="confirmarReserva()">
                 Reservar <i class="fas fa-hand-holding-heart ms-1"></i>
             </button>
         </div>
@@ -150,15 +165,20 @@
         const icono = getIcono(don.categoria?.nombre);
         const hora = new Date(don.fecha_limite).toLocaleTimeString('es-SV', { hour: '2-digit', minute: '2-digit' });
 
-        document.getElementById('modalTitle').innerText = don.titulo;
-        document.getElementById('modalDesc').innerText = don.descripcion ?? '';
+        document.getElementById('modalTitle').innerText   = don.titulo;
+        document.getElementById('modalDesc').innerText    = don.descripcion ?? '';
         document.getElementById('modalComercio').innerText = don.comercio?.nombre_comercial ?? 'Comercio';
-        document.getElementById('modalTime').innerText = `Límite: ${hora}`;
-        document.getElementById('modalQty').innerText = don.cantidad;
+        document.getElementById('modalTime').innerText    = `Límite: ${hora}`;
+        document.getElementById('modalQty').innerText     = don.cantidad;
         document.getElementById('modalIconContainer').innerHTML = `<i class="fas ${icono}"></i>`;
-        
-        document.getElementById('modalVoluntario').value = '';
 
+        // Campo cantidad
+        const cantidadInput = document.getElementById('modalCantidad');
+        cantidadInput.max   = don.cantidad;
+        cantidadInput.value = 1;
+        document.getElementById('modalQtyMax').textContent = `(máx. ${don.cantidad})`;
+
+        document.getElementById('modalVoluntario').value = '';
         document.getElementById('modalReserva').classList.add('active');
     }
 
@@ -169,8 +189,23 @@
     async function confirmarReserva() {
         if (!donacionActual) return;
         
-        const voluntarioId = document.getElementById('modalVoluntario').value;
-        
+        const btn = document.getElementById('btnConfirmarReserva');
+        btn.disabled = true;
+        const htmlOriginal = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Procesando...';
+
+        const voluntarioVal  = document.getElementById('modalVoluntario').value;
+        const voluntarioId   = voluntarioVal === "" ? null : voluntarioVal;
+        const cantidadReserv = parseInt(document.getElementById('modalCantidad').value) || 1;
+        const maxCantidad    = parseInt(document.getElementById('modalCantidad').max);
+
+        if (cantidadReserv < 1 || cantidadReserv > maxCantidad) {
+            alert(`Por favor ingresa una cantidad entre 1 y ${maxCantidad}.`);
+            btn.disabled = false;
+            btn.innerHTML = htmlOriginal;
+            return;
+        }
+
         try {
             const res = await fetch(`{{ url('/ong/reservas/crear') }}/${donacionActual.id}`, {
                 method: 'POST',
@@ -179,10 +214,11 @@
                     'X-CSRF-TOKEN': '{{ csrf_token() }}',
                     'Accept': 'application/json'
                 },
-                body: JSON.stringify({ 
+                body: JSON.stringify({
                     notas: '',
                     donacion_id: donacionActual.id,
-                    voluntario_id: voluntarioId
+                    voluntario_id: voluntarioId,
+                    cantidad_reservada: cantidadReserv
                 })
             });
 
@@ -193,11 +229,18 @@
                 cerrarModal();
                 cargarPublicaciones();
             } else {
-                alert(data.message || 'Error al reservar el alimento.');
+                let errorMsg = data.message || 'Error al reservar el alimento.';
+                if (data.errors) {
+                    errorMsg = Object.values(data.errors).flat().join('\n');
+                }
+                alert(errorMsg);
             }
         } catch (error) {
             console.error(error);
             alert('Ocurrió un error al procesar la reserva.');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = htmlOriginal;
         }
     }
 

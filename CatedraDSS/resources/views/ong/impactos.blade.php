@@ -26,9 +26,15 @@
             <div class="col-md-4 mb-4">
                 <div class="fs-pub-card" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%; background: #ffffff; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); padding: 24px; border: 1px solid rgba(0,0,0,0.01);">
                     <div>
-                        <div style="background: rgba(69, 182, 111, 0.12); color: #45b66f; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border-radius: 50%; margin-bottom: 16px; font-size: 22px;">
-                            <i class="fas fa-hand-holding-heart"></i>
-                        </div>
+                        @if($item->imagen)
+                            <div style="width: 100%; height: 150px; border-radius: 12px; margin-bottom: 16px; overflow: hidden;">
+                                <img src="{{ asset('storage/' . $item->imagen) }}" alt="Imagen de impacto" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                        @else
+                            <div style="background: rgba(69, 182, 111, 0.12); color: #45b66f; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border-radius: 50%; margin-bottom: 16px; font-size: 22px;">
+                                <i class="fas fa-hand-holding-heart"></i>
+                            </div>
+                        @endif
                         <h5 style="font-weight: 700; color: #1a2a32; margin-bottom: 12px; font-size: 1.1rem;">
                             {{ $item->titulo }}
                         </h5>
@@ -69,7 +75,7 @@
                 <h5 class="modal-title fw-bold text-dark" id="modalAgregarLabel">Publicar Nueva Historia de Impacto</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="{{ route('ong.impactos.store') }}" method="POST">
+            <form action="{{ route('ong.impactos.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body p-4">
                     <div class="mb-3">
@@ -79,6 +85,10 @@
                     <div class="mb-3">
                         <label for="descripcion" class="form-label fw-semibold">Descripción del impacto</label>
                         <textarea class="form-control" name="descripcion" id="descripcion" rows="4" placeholder="Describe detalladamente cómo ayudó esta actividad..." required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="imagen" class="form-label fw-semibold">Fotografía (Opcional)</label>
+                        <input type="file" class="form-control" name="imagen" id="imagen" accept="image/*">
                     </div>
                 </div>
                 <div class="modal-footer" style="background-color: #f8fafc; border-top: 1px solid #e2e8f0; border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;">
@@ -97,7 +107,7 @@
                 <h5 class="modal-title fw-bold text-dark" id="modalEditarLabel">Editar Historia de Impacto</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="formEditar" method="POST">
+            <form id="formEditar" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="modal-body p-4">
@@ -108,6 +118,10 @@
                     <div class="mb-3">
                         <label for="edit_descripcion" class="form-label fw-semibold">Descripción del impacto</label>
                         <textarea class="form-control" name="descripcion" id="edit_descripcion" rows="4" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_imagen" class="form-label fw-semibold">Actualizar fotografía (Opcional)</label>
+                        <input type="file" class="form-control" name="imagen" id="edit_imagen" accept="image/*">
                     </div>
                 </div>
                 <div class="modal-footer" style="background-color: #f8fafc; border-top: 1px solid #e2e8f0; border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;">
