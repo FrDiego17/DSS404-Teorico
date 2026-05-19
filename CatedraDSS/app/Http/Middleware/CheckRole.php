@@ -16,6 +16,8 @@ class CheckRole
 
         if (Auth::user()->estado === 'inactivo') {
             Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
             return redirect()->route('login')->withErrors([
                 'email' => 'Tu sesión ha sido cerrada porque tu cuenta fue suspendida.'
             ]);
@@ -25,6 +27,10 @@ class CheckRole
             abort(403, 'No tienes permiso para acceder a esta sección.');
         }
 
-        return $next($request);
+        $response = $next($request);
+
+        return $response->header('Cache-Control', 'nocache, no-store, max-age=0, must-revalidate')
+                        ->header('Pragma', 'no-cache')
+                        ->header('Expires', 'Sat, 01 Jan 1990 00:00:00 GMT');
     }
 }
