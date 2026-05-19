@@ -48,23 +48,26 @@ class AdminController extends Controller
     public function verificarOng(Request $request, $id)
     {
         $request->validate([
-            'accion' => 'required|in:verificada,rechazada',
+            'accion' => 'required|in:verificada,rechazada,suspender,habilitar',
         ]);
 
         $organizacion = Organizacion::findOrFail($id);
-        $organizacion->update(['estado_verificacion' => $request->accion]);
-
         $user = $organizacion->user;
-        if ($request->accion === 'verificada') {
+
+        if (in_array($request->accion, ['verificada', 'rechazada'])) {
+            $organizacion->update(['estado_verificacion' => $request->accion]);
+            $user->update(['estado' => $request->accion === 'verificada' ? 'activo' : 'rechazado']);
+            $msg = $request->accion === 'verificada' ? "verificada exitosamente" : "rechazada";
+        } elseif ($request->accion === 'suspender') {
+            $user->update(['estado' => 'inactivo']);
+            $msg = "suspendida temporalmente";
+        } elseif ($request->accion === 'habilitar') {
             $user->update(['estado' => 'activo']);
-        } else {
-            $user->update(['estado' => 'rechazado']);
+            $msg = "habilitada nuevamente";
         }
 
         return redirect()->route('admin.ongs.index')
-            ->with('success', $request->accion === 'verificada'
-                ? "Organización \"{$organizacion->nombre_oficial}\" verificada exitosamente."
-                : "Organización \"{$organizacion->nombre_oficial}\" rechazada.");
+            ->with('success', "Organización \"{$organizacion->nombre_oficial}\" ha sido {$msg}.");
     }
 
     //Comercio
@@ -78,23 +81,26 @@ class AdminController extends Controller
     public function verificarComercio(Request $request, $id)
     {
         $request->validate([
-            'accion' => 'required|in:aprobado,rechazado',
+            'accion' => 'required|in:aprobado,rechazado,suspender,habilitar',
         ]);
 
         $comercio = Comercio::findOrFail($id);
-        $comercio->update(['estado' => $request->accion]);
-
         $user = $comercio->user;
-        if ($request->accion === 'aprobado') {
+
+        if (in_array($request->accion, ['aprobado', 'rechazado'])) {
+            $comercio->update(['estado' => $request->accion]);
+            $user->update(['estado' => $request->accion === 'aprobado' ? 'activo' : 'rechazado']);
+            $msg = $request->accion === 'aprobado' ? "aprobado exitosamente" : "rechazado";
+        } elseif ($request->accion === 'suspender') {
+            $user->update(['estado' => 'inactivo']);
+            $msg = "suspendido temporalmente";
+        } elseif ($request->accion === 'habilitar') {
             $user->update(['estado' => 'activo']);
-        } else {
-            $user->update(['estado' => 'rechazado']);
+            $msg = "habilitado nuevamente";
         }
 
         return redirect()->route('admin.comercios.index')
-            ->with('success', $request->accion === 'aprobado'
-                ? "Comercio \"{$comercio->nombre_comercial}\" aprobado exitosamente."
-                : "Comercio \"{$comercio->nombre_comercial}\" rechazado.");
+            ->with('success', "Comercio \"{$comercio->nombre_comercial}\" ha sido {$msg}.");
     }
 
     //Publicaciones

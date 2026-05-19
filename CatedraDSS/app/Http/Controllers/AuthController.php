@@ -41,6 +41,13 @@ class AuthController extends Controller
             ])->withInput($request->only('email'));
         }
 
+        if ($user->estado === 'inactivo') {
+            Auth::logout();
+            return back()->withErrors([
+                'email' => 'Tu cuenta ha sido suspendida por el administrador.',
+            ])->withInput($request->only('email'));
+        }
+
         $request->session()->regenerate();
 
         // Redirige según el rol

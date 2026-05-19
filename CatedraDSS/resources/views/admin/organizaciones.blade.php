@@ -44,6 +44,12 @@
                             @else
                                 <span style="background:#fff3cd; color:#e65100; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:600;">Pendiente</span>
                             @endif
+
+                            @if($org->user && $org->user->estado === 'inactivo')
+                                <div class="mt-2">
+                                    <span style="background:#f3f4f6; color:#4b5563; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:600;">Suspendida</span>
+                                </div>
+                            @endif
                         </td>
                         <td>
                             @if($org->estado_verificacion === 'pendiente')
@@ -61,6 +67,24 @@
                                         <i class="fas fa-times"></i>
                                     </button>
                                 </form>
+                            @elseif($org->estado_verificacion === 'verificada' && $org->user)
+                                @if($org->user->estado === 'activo')
+                                    <form method="POST" action="{{ route('admin.ongs.verificar', $org->id) }}" style="display:inline;" onsubmit="return confirm('¿Suspender el acceso a esta organización?')">
+                                        @csrf
+                                        <input type="hidden" name="accion" value="suspender">
+                                        <button type="submit" class="btn-action delete" title="Suspender organización" style="color: #d97706;">
+                                            <i class="fas fa-ban"></i>
+                                        </button>
+                                    </form>
+                                @elseif($org->user->estado === 'inactivo')
+                                    <form method="POST" action="{{ route('admin.ongs.verificar', $org->id) }}" style="display:inline;" onsubmit="return confirm('¿Habilitar el acceso a esta organización?')">
+                                        @csrf
+                                        <input type="hidden" name="accion" value="habilitar">
+                                        <button type="submit" class="btn-action approve" title="Habilitar organización" style="color: #059669;">
+                                            <i class="fas fa-play"></i>
+                                        </button>
+                                    </form>
+                                @endif
                             @else
                                 <span style="color:#aaa; font-size:12px;">Sin acciones</span>
                             @endif
