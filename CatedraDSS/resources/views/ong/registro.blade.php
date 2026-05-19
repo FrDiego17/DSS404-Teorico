@@ -11,7 +11,6 @@
                 <div class="card register-card">
                     <div class="row g-0">
 
-                        {{-- COLUMNA IZQUIERDA --}}
                         <div class="col-md-6 register-image">
                             <div class="register-image-overlay">
                                 <div class="register-image-content">
@@ -30,11 +29,9 @@
                             </div>
                         </div>
 
-                        {{-- COLUMNA DERECHA (formulario) --}}
                         <div class="col-md-6">
                             <div class="register-form">
 
-                                {{-- Indicador de pasos --}}
                                 <div class="step-indicator">
                                     <div class="step active" id="step1-indicator">1</div>
                                     <div class="step-line" id="line1"></div>
@@ -44,7 +41,6 @@
                                 <h3 class="text-center">Registro y Verificación de ONG</h3>
                                 <p class="text-center text-muted mb-4">Completa tus datos para comenzar</p>
 
-                                {{-- Errores --}}
                                 @if ($errors->any())
                                     <div class="alert alert-danger">
                                         <ul class="mb-0">
@@ -58,7 +54,6 @@
                                 <form id="formRegistroOng" method="POST" action="{{ route('ong.registro.post') }}">
                                     @csrf
 
-                                    {{-- ─── PASO 1 ─── --}}
                                     <div id="step1" class="form-section active-section">
                                         <div class="mb-3">
                                             <label class="form-label">Nombre de la Organización</label>
@@ -84,6 +79,7 @@
                                                 <input type="password" class="form-control" id="password" name="password"
                                                        placeholder="Mínimo 8 caracteres">
                                             </div>
+                                            <small class="text-muted">La contraseña debe tener al menos <strong>8 caracteres</strong></small>
                                         </div>
 
                                         <div class="mb-3">
@@ -117,7 +113,6 @@
                                         </p>
                                     </div>
 
-                                    {{-- ─── PASO 2 ─── --}}
                                     <div id="step2" class="form-section">
                                         <div class="mb-3">
                                             <label class="form-label">Departamento</label>
@@ -205,7 +200,11 @@
             alert('Por favor ingresa un correo válido.');
             return;
         }
+<<<<<<< HEAD
         if (password.length < 6) {
+=======
+        if (password.length < 8) {
+>>>>>>> f07d79c4990203d273145e6899db050db039d645
             alert('La contraseña debe tener al menos 8 caracteres.');
             return;
         }

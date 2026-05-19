@@ -4,8 +4,7 @@
 
 @section('content')
 
-{{-- SECCIÓN HERO --}}
-<section class="hero-fullscreen">
+<section class="hero-fullscreen" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)), url('{{ asset('resources/img/index.png') }}'); background-size: cover; background-position: center;">
     <div class="container">
         <div class="row">
             <div class="col-lg-10">
@@ -36,7 +35,6 @@
     </div>
 </main>
 
-{{-- MODAL DE RESERVA --}}
 <div id="modalReserva" class="fs-modal-overlay">
     <div class="fs-modal-content">
         <button class="fs-modal-close" onclick="cerrarModal()">&times;</button>
@@ -53,6 +51,18 @@
                 <span class="fs-badge-qty" id="modalQty">0</span>
             </div>
             <p class="fs-modal-desc" id="modalDesc">Descripción detallada del producto.</p>
+
+            <div class="mb-4 text-start">
+                <label for="modalVoluntario" class="form-label fw-semibold text-muted small mb-1" style="font-size: 0.85rem;">
+                    <i class="fas fa-user-friends me-1 text-success"></i> Asignar Voluntario para el retiro:
+                </label>
+                <select class="form-select" id="modalVoluntario" style="border-radius: 8px; font-size: 14px; padding: 8px 12px; border: 1px solid #cbd5e1;">
+                    <option value="" selected> Seleccionar Voluntario </option>
+                    @foreach($voluntarios as $vol)
+                        <option value="{{ $vol->id }}">{{ $vol->nombre }} (DUI: {{ $vol->dui }})</option>
+                    @endforeach
+                </select>
+            </div>
 
             <div class="fs-modal-info">
                 <p class="info-comercio" id="modalComercio">Nombre del Comercio</p>
@@ -146,6 +156,9 @@
         document.getElementById('modalTime').innerText = `Límite: ${hora}`;
         document.getElementById('modalQty').innerText = don.cantidad;
         document.getElementById('modalIconContainer').innerHTML = `<i class="fas ${icono}"></i>`;
+        
+        document.getElementById('modalVoluntario').value = '';
+
         document.getElementById('modalReserva').classList.add('active');
     }
 
@@ -153,9 +166,39 @@
         document.getElementById('modalReserva').classList.remove('active');
     }
 
-    function confirmarReserva() {
-        alert('¡Alimento reservado con éxito! El comercio ha sido notificado.');
-        cerrarModal();
+    async function confirmarReserva() {
+        if (!donacionActual) return;
+        
+        const voluntarioId = document.getElementById('modalVoluntario').value;
+        
+        try {
+            const res = await fetch(`{{ url('/ong/reservas/crear') }}/${donacionActual.id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ 
+                    notas: '',
+                    donacion_id: donacionActual.id,
+                    voluntario_id: voluntarioId
+                })
+            });
+
+            const data = await res.json();
+            
+            if (res.ok) {
+                alert('¡Alimento reservado con éxito! El comercio ha sido notificado.');
+                cerrarModal();
+                cargarPublicaciones();
+            } else {
+                alert(data.message || 'Error al reservar el alimento.');
+            }
+        } catch (error) {
+            console.error(error);
+            alert('Ocurrió un error al procesar la reserva.');
+        }
     }
 
     cargarPublicaciones();

@@ -91,7 +91,7 @@
 
                                     <p class="text-center mt-4 mb-0">
                                         ¿No tienes cuenta?
-                                        <a href="{{ route('ong.registro') }}" class="register-link">Registra tu ONG</a>
+                                        <a href="{{ route('auth.registro') }}" class="register-link">Crear cuenta</a>
                                     </p>
                                 </form>
                             </div>

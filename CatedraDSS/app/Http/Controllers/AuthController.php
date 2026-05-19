@@ -73,7 +73,7 @@ class AuthController extends Controller
         $request->validate([
             'nombre'               => 'required|string|max:255',
             'email'                => 'required|email|unique:users,email',
-            'password'             => 'required|min:6|confirmed',
+            'password'             => 'required|min:8|confirmed',
             'nit'                  => 'required|string|max:20',
             'registro_asociacion'  => 'required|string|max:20',
             'departamento'         => 'required|string',
@@ -83,7 +83,7 @@ class AuthController extends Controller
             'hora_cierre'          => 'required',
         ]);
 
-        User::create([
+        $user = User::create([
             'name'     => $request->nombre,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
@@ -91,7 +91,17 @@ class AuthController extends Controller
             'estado'   => 'pendiente',
         ]);
 
-        return redirect()->route('login')->with('success', '¡Registro exitoso! Tu cuenta está pendiente de aprobación.');
+        \App\Models\Organizacion::create([
+        'user_id'             => $user->id,
+        'nombre_oficial'      => $request->nombre,
+        'numero_registro'     => $request->registro_asociacion,
+        'representante_legal' => 'Pendiente de actualizar',
+        'telefono_contacto'   => 'Sin especificar',
+        'direccion'           => $request->direccion . ', ' . $request->departamento,
+        'estado_verificacion' => 'pendiente',
+    ]);
+
+    return redirect()->route('login')->with('success', '¡Registro exitoso! Tu cuenta está pendiente de aprobación.');
     }
 
     // Muestra el formulario de registro de comercio
@@ -100,13 +110,19 @@ class AuthController extends Controller
         return view('comercio.registro');
     }
 
+    // Muestra el selector de tipo de cuenta
+    public function showRegistro()
+    {
+        return view('auth.registro');
+    }
+
     public function registroCom(Request $request)
     {
         $request->validate([
             'nombre_comercial'         => 'required|string|max:255',
             'nombre_registrado'        => 'required|string|max:255',
             'email'                    => 'required|email|unique:users,email',
-            'password'                 => 'required|min:6|confirmed',
+            'password'                 => 'required|min:8|confirmed',
             'nit'                      => 'required|string|unique:comercios,nit',
             'no_autorizacion_sanitaria'=> 'required|string',
             'telefono'                 => 'nullable|string|max:20',

@@ -45,10 +45,18 @@
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link active fw-semibold" href="{{ route('home') }}">Inicio</a></li>
-                <li class="nav-item"><a class="nav-link fw-semibold" href="#">Cómo funciona</a></li>
-                <li class="nav-item"><a class="nav-link fw-semibold" href="#">Organizaciones</a></li>
-                <li class="nav-item"><a class="nav-link fw-semibold" href="#">Proveedores</a></li>
+                <a class="nav-link {{ Route::is('home') ? 'active text-success fw-bold' : '' }}" href="{{ route('home') }}">
+                    Inicio
+                </a>
+                <a class="nav-link {{ Route::is('impacto') ? 'active text-success fw-bold' : '' }}" href="{{ route('impacto') }}">
+                    Impacto
+                </a>
+                <a class="nav-link {{ Route::is('organizaciones.publicas') ? 'active text-success fw-bold' : '' }}" href="{{ route('organizaciones.publicas') }}">
+                    Organizaciones
+                </a>
+                <a class="nav-link {{ Route::is('proveedores.publicas') ? 'active text-success fw-bold' : '' }}" href="{{ route('proveedores.publicas') }}">
+                    Proveedores
+                </a>
                 <li class="nav-item ms-2">
                     <a class="nav-link fw-semibold btn {{ $btnTheme }} btn-sm px-3" href="{{ route('login') }}">
                         <i class="fas fa-sign-in-alt me-1"></i> Iniciar Sesión

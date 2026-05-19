@@ -32,4 +32,9 @@ class Donacion extends Model
     {
         return $this->belongsTo(Categoria::class);
     }
+
+    public function reservas()
+    {
+        return $this->hasMany(Reserva::class);
+    }
 }

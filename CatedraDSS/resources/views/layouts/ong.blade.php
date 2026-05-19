@@ -27,9 +27,10 @@
             color: var(--fs-nav-links) !important;
             font-weight: 500;
             font-size: 1rem;
-            margin: 0 15px;
+            margin: 0 10px;
             padding: 5px 0;
             position: relative;
+            white-space: nowrap;
             transition: color 0.3s ease;
         }
         .navbar-minimal .nav-link.active::after,
@@ -74,20 +75,24 @@
             <div class="nav-center">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('ong.dashboard') ? 'active' : '' }}"
-                           href="{{ route('ong.dashboard') }}">Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('ong.voluntarios') ? 'active' : '' }}"
-                           href="{{ route('ong.voluntarios') }}">Registrar Voluntarios</a>
+                        <a class="nav-link text-nowrap {{ request()->routeIs('ong.voluntarios') ? 'active' : '' }}"
+                        href="{{ route('ong.voluntarios') }}">Registrar Voluntarios</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('ong.reservados') ? 'active' : '' }}"
-                           href="{{ route('ong.reservados') }}">Reservados</a>
+                        href="{{ route('ong.reservados') }}">Reservados</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('ong.historial') ? 'active' : '' }}"
-                           href="{{ route('ong.historial') }}">Historial</a>
+                        href="{{ route('ong.historial') }}">Historial</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-nowrap {{ request()->routeIs('ong.impactos') ? 'active' : '' }}"
+                        href="{{ route('ong.impactos') }}">Mis Impactos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('ong.proveedores') ? 'active' : '' }}"
+                        href="{{ route('ong.proveedores') }}">Proveedores</a>
                     </li>
                 </ul>
             </div>
