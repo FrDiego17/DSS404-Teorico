@@ -200,11 +200,8 @@
             alert('Por favor ingresa un correo válido.');
             return;
         }
-<<<<<<< HEAD
         if (password.length < 8) {
-=======
         if (password.length < 8) {
->>>>>>> f07d79c4990203d273145e6899db050db039d645
             alert('La contraseña debe tener al menos 8 caracteres.');
             return;
         }
