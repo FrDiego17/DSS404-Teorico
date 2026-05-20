@@ -10,9 +10,10 @@ class OrganizacionesPublicasController extends Controller
 
     public function index()
     {
-        $organizaciones = Organizacion::whereHas('usuario', function($query) {
-            $query->where('estado', 'activo');
-        })->get();
+        $organizaciones = Organizacion::where('estado_verificacion', 'verificada')
+            ->whereHas('user', function($query) {
+                $query->where('estado', 'activo');
+            })->get();
 
         return view('organizaciones', compact('organizaciones'));
     }

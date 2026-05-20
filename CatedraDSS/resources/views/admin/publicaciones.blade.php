@@ -32,6 +32,28 @@
                     ];
                     $emoji = $iconos[$don->categoria->nombre ?? ''] ?? '📦';
                     $hora = $don->fecha_limite ? \Carbon\Carbon::parse($don->fecha_limite)->format('H:i') : '—';
+
+                    $esReservada = $don->estado === 'reservada';
+                    $esEntregada = $don->estado === 'entregada';
+                    $esCancelada = $don->estado === 'cancelada';
+                    $esVencida   = ($don->estado === 'publicada' || $don->estado === 'vencida') && $don->fecha_limite && \Carbon\Carbon::parse($don->fecha_limite)->isPast();
+
+                    if ($esEntregada) {
+                        $estadoText = 'Entregada';
+                        $estadoColor = '#2c5282'; 
+                    } elseif ($esVencida) {
+                        $estadoText = 'Vencida';
+                        $estadoColor = '#e53e3e'; 
+                    } elseif ($esReservada) {
+                        $estadoText = 'Reservada';
+                        $estadoColor = '#d69e2e'; 
+                    } elseif ($esCancelada) {
+                        $estadoText = 'Cancelada';
+                        $estadoColor = '#718096'; 
+                    } else {
+                        $estadoText = 'Publicada';
+                        $estadoColor = '#45b66f'; 
+                    }
                 @endphp
                 <div class="pub-figma-card search-card">
                     <span class="card-img">{{ $emoji }}</span>
@@ -42,7 +64,7 @@
                     <p class="card-desc search-desc">{{ $don->descripcion }}</p>
                     <div class="card-footer-row">
                         <span class="card-time">{{ $hora }}</span>
-                        <span style="font-size:11px; color:#45b66f; font-weight:600;">{{ $don->estado }}</span>
+                        <span style="font-size:11px; color:{{ $estadoColor }}; font-weight:600;">{{ $estadoText }}</span>
                     </div>
                 </div>
             @endforeach

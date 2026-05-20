@@ -10,7 +10,11 @@ class ProveedoresPublicosController extends Controller
     /* Listado de proveedores registrados */
     public function index()
     {
-        $proveedores = Comercio::all(); 
+        $proveedores = Comercio::where('estado', 'aprobado')
+            ->whereHas('user', function ($query) {
+                $query->where('estado', 'activo');
+            })
+            ->get(); 
 
         return view('proveedores', compact('proveedores'));
     }

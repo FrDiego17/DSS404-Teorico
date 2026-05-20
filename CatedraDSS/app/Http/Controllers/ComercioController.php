@@ -162,6 +162,9 @@ class ComercioController extends Controller
     public function organizaciones()
     {
         $organizaciones = Organizacion::where('estado_verificacion', 'verificada')
+            ->whereHas('user', function ($query) {
+                $query->where('estado', 'activo');
+            })
             ->orderBy('nombre_oficial')
             ->get();
 
@@ -209,7 +212,11 @@ class ComercioController extends Controller
 
     public function index()
     {
-        $comercios = Comercio::where('estado', 'aprobado')->get();
+        $comercios = Comercio::where('estado', 'aprobado')
+            ->whereHas('user', function ($query) {
+                $query->where('estado', 'activo');
+            })
+            ->get();
         return response()->json($comercios);
     }
 

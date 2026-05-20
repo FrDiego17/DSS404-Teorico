@@ -60,7 +60,11 @@ class OrganizacionController extends Controller
 
     public function listarProveedores()
     {
-        $proveedores = Comercio::all();
+        $proveedores = Comercio::where('estado', 'aprobado')
+            ->whereHas('user', function ($query) {
+                $query->where('estado', 'activo');
+            })
+            ->get();
 
         return view('ong.proveedores', compact('proveedores'));
     }

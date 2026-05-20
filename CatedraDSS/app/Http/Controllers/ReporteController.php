@@ -21,8 +21,14 @@ class ReporteController extends Controller
         $totalKgSalvados = Donacion::where('estado', 'entregada')
             ->sum('peso_estimado_kg');
 
-        $ongsActivas = Organizacion::where('estado_verificacion', 'verificada')->count();
-        $comerciosActivos = Comercio::where('estado', 'aprobado')->count();
+        $ongsActivas = Organizacion::where('estado_verificacion', 'verificada')
+            ->whereHas('user', function ($query) {
+                $query->where('estado', 'activo');
+            })->count();
+        $comerciosActivos = Comercio::where('estado', 'aprobado')
+            ->whereHas('user', function ($query) {
+                $query->where('estado', 'activo');
+            })->count();
 
         $totalReservas = Reserva::count();
         $reservasCompletadas = Reserva::where('estado', 'completada')->count();
