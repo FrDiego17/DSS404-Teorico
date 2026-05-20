@@ -19,9 +19,9 @@ class VoluntarioController extends Controller
     {
         $validated = $request->validate([
             'nombre'           => 'required|string|max:255',
-            'email'            => 'nullable|email|max:255',
-            'dui'              => ['required', 'string', 'regex:/^\d{8}-\d{1}$/'],
-            'telefono'         => ['required', 'string', 'regex:/^\d{4}-\d{4}$/'],
+            'email'            => 'nullable|email|max:255|unique:voluntarios,email',
+            'dui'              => ['required', 'string', 'regex:/^\d{8}-\d{1}$/', 'unique:voluntarios,dui'],
+            'telefono'         => ['required', 'string', 'regex:/^\d{4}-\d{4}$/', 'unique:voluntarios,telefono'],
             'genero'           => 'required|string|in:Masculino,Femenino,Otro',
             'fecha_nacimiento' => [
                 'required', 'date', 'before:today',
@@ -34,7 +34,10 @@ class VoluntarioController extends Controller
             ],
         ], [
             'dui.regex'              => 'El formato del DUI debe ser 00000000-0',
+            'dui.unique'             => 'El DUI ya está registrado por otro voluntario.',
             'telefono.regex'         => 'El formato del teléfono debe ser 0000-0000',
+            'telefono.unique'        => 'El teléfono ya está registrado por otro voluntario.',
+            'email.unique'           => 'El correo electrónico ya está registrado por otro voluntario.',
             'fecha_nacimiento.before' => 'La fecha de nacimiento debe ser en el pasado',
         ]);
 
@@ -50,9 +53,9 @@ class VoluntarioController extends Controller
 
         $validated = $request->validate([
             'nombre'           => 'required|string|max:255',
-            'email'            => 'nullable|email|max:255',
-            'dui'              => ['required', 'string', 'regex:/^\d{8}-\d{1}$/'],
-            'telefono'         => ['required', 'string', 'regex:/^\d{4}-\d{4}$/'],
+            'email'            => 'nullable|email|max:255|unique:voluntarios,email,' . $id,
+            'dui'              => ['required', 'string', 'regex:/^\d{8}-\d{1}$/', 'unique:voluntarios,dui,' . $id],
+            'telefono'         => ['required', 'string', 'regex:/^\d{4}-\d{4}$/', 'unique:voluntarios,telefono,' . $id],
             'genero'           => 'required|string|in:Masculino,Femenino,Otro',
             'fecha_nacimiento' => [
                 'required', 'date', 'before:today',
@@ -65,7 +68,10 @@ class VoluntarioController extends Controller
             ],
         ], [
             'dui.regex'              => 'El formato del DUI debe ser 00000000-0',
+            'dui.unique'             => 'El DUI ya está registrado por otro voluntario.',
             'telefono.regex'         => 'El formato del teléfono debe ser 0000-0000',
+            'telefono.unique'        => 'El teléfono ya está registrado por otro voluntario.',
+            'email.unique'           => 'El correo electrónico ya está registrado por otro voluntario.',
             'fecha_nacimiento.before' => 'La fecha de nacimiento debe ser en el pasado',
         ]);
 

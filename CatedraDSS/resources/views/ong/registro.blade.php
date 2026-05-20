@@ -214,7 +214,7 @@
 
 @push('scripts')
 <script>
-    // Formato automático para NIT (0000-000000-000-0)
+    // Formato automático para el NIT 
     document.getElementById('nit').addEventListener('input', function (e) {
         let value = e.target.value.replace(/\D/g, ''); // Elimina todo lo que no sea dígito
         let formattedValue = '';
