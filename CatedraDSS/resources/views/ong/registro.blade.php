@@ -182,7 +182,10 @@
 <script>
     // Si hay errores de servidor, muestra paso 2 si los campos son del paso 2
     const hayErrorPaso2 = {{ $errors->hasAny(['departamento','direccion','capacidad','hora_inicio','hora_cierre']) ? 'true' : 'false' }};
-    if (hayErrorPaso2) { irAPaso2(); }
+    if (hayErrorPaso2) { 
+        // Esperamos a que cargue el DOM por si acaso
+        window.addEventListener('DOMContentLoaded', () => { irAPaso2(); });
+    }
 
     function nextStep() {
         const nombre   = document.getElementById('nombre').value.trim();
@@ -192,25 +195,33 @@
         const nit      = document.getElementById('nit').value.trim();
         const registro = document.getElementById('registro').value.trim();
 
+        // Validar campos vacíos
         if (!nombre || !email || !password || !confirm || !nit || !registro) {
             alert('Por favor completa todos los campos del paso 1.');
             return;
         }
+        
+        // Validar estructura de correo básica
         if (!email.includes('@')) {
             alert('Por favor ingresa un correo válido.');
             return;
         }
-        if (password.length < 8) {
+        
+        // Validar longitud de contraseña (Corregido)
         if (password.length < 8) {
             alert('La contraseña debe tener al menos 8 caracteres.');
             return;
         }
+        
+        // Validar que coincidan
         if (password !== confirm) {
             alert('Las contraseñas no coinciden.');
             return;
         }
+        
+        // Si todo está bien, avanza
         irAPaso2();
-    }
+    } // <-- Aquí se cierra correctamente nextStep
 
     function irAPaso2() {
         document.getElementById('step1').classList.remove('active-section');
