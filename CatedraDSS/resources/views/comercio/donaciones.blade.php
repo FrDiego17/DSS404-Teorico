@@ -326,7 +326,7 @@
 
             if (res.ok) {
                 cerrarModalVerif();
-                mostrarToast('¡Entrega verificada correctamente! 🎉', true);
+                mostrarToast('¡Entrega verificada correctamente!', true); 
                 setTimeout(() => {
                     window.location.reload();
                 }, 1000);

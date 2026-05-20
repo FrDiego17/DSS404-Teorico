@@ -88,15 +88,15 @@
                                 {{-- Badge de estado --}}
                                 @if($esEntregada)
                                     <span class="badge ms-1" style="font-size:11px; vertical-align:middle; background:#c6f6d5; color:#22543d;">
-                                        ✅ Entregada
+                                        Entregada
                                     </span>
                                 @elseif($esReservada)
                                     <span class="badge ms-1" style="font-size:11px; vertical-align:middle; background:#bee3f8; color:#2c5282;">
-                                        📦 Reservada
+                                        Reservada
                                     </span>
                                 @elseif($esVencida)
                                     <span class="badge ms-1" style="font-size:11px; vertical-align:middle; background:#fed7d7; color:#9b2c2c;">
-                                        ⏳ Tiempo Agotado
+                                        Tiempo Agotado
                                     </span>
                                 @else
                                     <span class="badge ms-1" style="font-size:11px; vertical-align:middle; background:#fff3cd; color:#e65100;">
