@@ -77,18 +77,39 @@ class AuthController extends Controller
     // Procesa el registro de ONG
     public function registroOng(Request $request)
     {
+        $messages = [
+            'nombre.required'              => 'El nombre de la organización es obligatorio.',
+            'nombre.max'                   => 'El nombre no puede exceder los 255 caracteres.',
+            'email.required'               => 'El correo electrónico es obligatorio.',
+            'email.email'                  => 'Debes ingresar un correo válido.',
+            'email.unique'                 => 'Este correo ya está registrado.',
+            'password.required'            => 'La contraseña es obligatoria.',
+            'password.min'                 => 'La contraseña debe tener al menos 8 caracteres.',
+            'password.confirmed'           => 'Las contraseñas no coinciden.',
+            'nit.required'                 => 'El NIT es obligatorio.',
+            'nit.min'                      => 'El NIT debe tener al menos 14 caracteres.',
+            'nit.max'                      => 'El NIT no puede exceder los 20 caracteres.',
+            'registro_asociacion.required' => 'El número de registro de asociación es obligatorio.',
+            'departamento.required'        => 'Debes seleccionar un departamento.',
+            'direccion.required'           => 'La dirección es obligatoria.',
+            'capacidad.required'           => 'La capacidad es obligatoria.',
+            'capacidad.min'                => 'La capacidad debe ser al menos de 1.',
+            'hora_inicio.required'         => 'La hora de inicio es obligatoria.',
+            'hora_cierre.required'         => 'La hora de cierre es obligatoria.',
+        ];
+
         $request->validate([
             'nombre'               => 'required|string|max:255',
             'email'                => 'required|email|unique:users,email',
             'password'             => 'required|min:8|confirmed',
-            'nit'                  => 'required|string|max:20',
+            'nit'                  => 'required|string|min:14|max:20',
             'registro_asociacion'  => 'required|string|max:20',
             'departamento'         => 'required|string',
             'direccion'            => 'required|string|max:255',
             'capacidad'            => 'required|integer|min:1',
             'hora_inicio'          => 'required',
             'hora_cierre'          => 'required',
-        ]);
+        ], $messages);
 
         $user = User::create([
             'name'     => $request->nombre,
@@ -125,16 +146,36 @@ class AuthController extends Controller
 
     public function registroCom(Request $request)
     {
+        $messages = [
+            'nombre_comercial.required'          => 'El nombre comercial es obligatorio.',
+            'nombre_comercial.max'               => 'El nombre comercial no puede exceder 255 caracteres.',
+            'nombre_registrado.required'         => 'El nombre registrado es obligatorio.',
+            'email.required'                     => 'El correo electrónico es obligatorio.',
+            'email.email'                        => 'Debes ingresar un correo válido.',
+            'email.unique'                       => 'Este correo ya está registrado.',
+            'password.required'                  => 'La contraseña es obligatoria.',
+            'password.min'                       => 'La contraseña debe tener al menos 8 caracteres.',
+            'password.confirmed'                 => 'Las contraseñas no coinciden.',
+            'nit.required'                       => 'El NIT es obligatorio.',
+            'nit.min'                            => 'El NIT debe tener al menos 14 caracteres.',
+            'nit.unique'                         => 'Este NIT ya se encuentra registrado.',
+            'no_autorizacion_sanitaria.required' => 'El número de autorización sanitaria es obligatorio.',
+            'telefono.required'                  => 'El teléfono de contacto es obligatorio.',
+            'telefono.min'                       => 'El teléfono debe tener al menos 8 caracteres.',
+            'telefono.max'                       => 'El teléfono no puede exceder los 20 caracteres.',
+            'direccion.required'                 => 'La dirección es obligatoria.',
+        ];
+
         $request->validate([
             'nombre_comercial'         => 'required|string|max:255',
             'nombre_registrado'        => 'required|string|max:255',
             'email'                    => 'required|email|unique:users,email',
             'password'                 => 'required|min:8|confirmed',
-            'nit'                      => 'required|string|unique:comercios,nit',
+            'nit'                      => 'required|string|min:14|unique:comercios,nit',
             'no_autorizacion_sanitaria'=> 'required|string',
-            'telefono'                 => 'nullable|string|max:20',
-            'direccion'                => 'nullable|string|max:255',
-        ]);
+            'telefono'                 => 'required|string|min:8|max:20',
+            'direccion'                => 'required|string|max:255',
+        ], $messages);
 
         $user = User::create([
             'name'     => $request->nombre_comercial,

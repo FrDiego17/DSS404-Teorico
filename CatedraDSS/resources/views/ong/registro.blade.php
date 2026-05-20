@@ -57,29 +57,42 @@
                                     <div id="step1" class="form-section active-section">
                                         <div class="mb-3">
                                             <label class="form-label">Nombre de la Organización</label>
-                                            <input type="text" class="form-control" id="nombre" name="nombre"
+                                            <input type="text" class="form-control @error('nombre') is-invalid @enderror" id="nombre" name="nombre"
                                                    placeholder="ej. Banco de Alimentos de El Salvador"
                                                    value="{{ old('nombre') }}">
+                                            @error('nombre')
+                                                <div class="text-danger small mt-1">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
                                         <div class="mb-3">
                                             <label class="form-label">Correo Electrónico</label>
                                             <div class="input-group">
                                                 <span class="input-group-text"><i class="fa-regular fa-envelope"></i></span>
-                                                <input type="email" class="form-control" id="email" name="email"
+                                                <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email"
                                                        placeholder="organizacion@ejemplo.com"
                                                        value="{{ old('email') }}">
                                             </div>
+                                            @error('email')
+                                                <div class="text-danger small mt-1">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
                                         <div class="mb-3">
                                             <label class="form-label">Contraseña</label>
                                             <div class="input-group">
                                                 <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
-                                                <input type="password" class="form-control" id="password" name="password"
+                                                <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password"
                                                        placeholder="Mínimo 8 caracteres">
+                                                <button class="input-group-text" type="button" id="togglePwdOng"
+                                                        style="cursor:pointer; border-left:none; background:#f8f9fa;">
+                                                    <i class="fa-regular fa-eye-slash" id="eyeIconOng"></i>
+                                                </button>
                                             </div>
-                                            <small class="text-muted">La contraseña debe tener al menos <strong>8 caracteres</strong></small>
+                                            <small class="text-muted d-block mt-1">La contraseña debe tener al menos <strong>8 caracteres</strong></small>
+                                            @error('password')
+                                                <div class="text-danger small mt-1">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
                                         <div class="mb-3">
@@ -93,14 +106,20 @@
 
                                         <div class="mb-3">
                                             <label class="form-label">NIT</label>
-                                            <input type="text" class="form-control" id="nit" name="nit"
+                                            <input type="text" class="form-control @error('nit') is-invalid @enderror" id="nit" name="nit"
                                                    placeholder="00000000000000" value="{{ old('nit') }}">
+                                            @error('nit')
+                                                <div class="text-danger small mt-1">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
                                         <div class="mb-4">
                                             <label class="form-label">No. Registro de Asociaciones y Fundaciones</label>
-                                            <input type="text" class="form-control" id="registro" name="registro_asociacion"
+                                            <input type="text" class="form-control @error('registro_asociacion') is-invalid @enderror" id="registro" name="registro_asociacion"
                                                    placeholder="0000" value="{{ old('registro_asociacion') }}">
+                                            @error('registro_asociacion')
+                                                <div class="text-danger small mt-1">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
                                         <button type="button" class="btn-register-next" onclick="nextStep()">
@@ -116,38 +135,53 @@
                                     <div id="step2" class="form-section">
                                         <div class="mb-3">
                                             <label class="form-label">Departamento</label>
-                                            <select class="form-control" id="departamento" name="departamento">
+                                            <select class="form-control @error('departamento') is-invalid @enderror" id="departamento" name="departamento">
                                                 <option value="">Selecciona un departamento</option>
                                                 @foreach (['Ahuachapán','Santa Ana','Sonsonate','Chalatenango','La Libertad','San Salvador','Cuscatlán','La Paz','Cabañas','San Vicente','Usulután','San Miguel','Morazán','La Unión'] as $dep)
                                                     <option value="{{ $dep }}" {{ old('departamento') == $dep ? 'selected' : '' }}>{{ $dep }}</option>
                                                 @endforeach
                                             </select>
+                                            @error('departamento')
+                                                <div class="text-danger small mt-1">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
                                         <div class="mb-3">
                                             <label class="form-label">Dirección de la Sede</label>
-                                            <input type="text" class="form-control" id="direccion" name="direccion"
+                                            <input type="text" class="form-control @error('direccion') is-invalid @enderror" id="direccion" name="direccion"
                                                    placeholder="Calle, Número de Local y Ciudad"
                                                    value="{{ old('direccion') }}">
+                                            @error('direccion')
+                                                <div class="text-danger small mt-1">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
                                         <div class="mb-3">
                                             <label class="form-label">Capacidad de Logística Aproximada</label>
-                                            <input type="number" class="form-control" id="capacidad" name="capacidad"
+                                            <input type="number" class="form-control @error('capacidad') is-invalid @enderror" id="capacidad" name="capacidad"
                                                    placeholder="Número de personas que pueden recoger excedentes"
                                                    value="{{ old('capacidad') }}">
+                                            @error('capacidad')
+                                                <div class="text-danger small mt-1">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
                                         <div class="row mb-4">
                                             <div class="col-md-6">
                                                 <label class="form-label">Horario de Inicio</label>
-                                                <input type="time" class="form-control" id="hora_inicio"
+                                                <input type="time" class="form-control @error('hora_inicio') is-invalid @enderror" id="hora_inicio"
                                                        name="hora_inicio" value="{{ old('hora_inicio') }}">
+                                                @error('hora_inicio')
+                                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="form-label">Horario de Cierre</label>
-                                                <input type="time" class="form-control" id="hora_cierre"
+                                                <input type="time" class="form-control @error('hora_cierre') is-invalid @enderror" id="hora_cierre"
                                                        name="hora_cierre" value="{{ old('hora_cierre') }}">
+                                                @error('hora_cierre')
+                                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                         </div>
 
@@ -180,6 +214,37 @@
 
 @push('scripts')
 <script>
+    // Formato automático para NIT (0000-000000-000-0)
+    document.getElementById('nit').addEventListener('input', function (e) {
+        let value = e.target.value.replace(/\D/g, ''); // Elimina todo lo que no sea dígito
+        let formattedValue = '';
+
+        if (value.length > 0) {
+            formattedValue = value.substring(0, 4);
+        }
+        if (value.length > 4) {
+            formattedValue += '-' + value.substring(4, 10);
+        }
+        if (value.length > 10) {
+            formattedValue += '-' + value.substring(10, 13);
+        }
+        if (value.length > 13) {
+            formattedValue += '-' + value.substring(13, 14);
+        }
+
+        e.target.value = formattedValue;
+    });
+
+    // Mostrar/Ocultar contraseña
+    document.getElementById('togglePwdOng').addEventListener('click', function () {
+        const pwd = document.getElementById('password');
+        const eye = document.getElementById('eyeIconOng');
+        const isPassword = pwd.getAttribute('type') === 'password';
+        pwd.setAttribute('type', isPassword ? 'text' : 'password');
+        eye.classList.toggle('fa-eye-slash', !isPassword);
+        eye.classList.toggle('fa-eye', isPassword);
+    });
+
     // Si hay errores de servidor, muestra paso 2 si los campos son del paso 2
     const hayErrorPaso2 = {{ $errors->hasAny(['departamento','direccion','capacidad','hora_inicio','hora_cierre']) ? 'true' : 'false' }};
     if (hayErrorPaso2) { 

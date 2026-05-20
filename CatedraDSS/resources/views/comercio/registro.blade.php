@@ -67,44 +67,56 @@
                                             <label class="form-label">Nombre Comercial</label>
                                             <div class="input-group">
                                                 <span class="input-group-text"><i class="fas fa-store"></i></span>
-                                                <input type="text" class="form-control" id="nombre_comercial"
+                                                <input type="text" class="form-control @error('nombre_comercial') is-invalid @enderror" id="nombre_comercial"
                                                        name="nombre_comercial" placeholder="Ej. Supermercado La Colonia"
                                                        value="{{ old('nombre_comercial') }}">
                                             </div>
+                                            @error('nombre_comercial')
+                                                <div class="text-danger small mt-1">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
                                         <div class="mb-3">
                                             <label class="form-label">Nombre Registrado (Legal)</label>
                                             <div class="input-group">
                                                 <span class="input-group-text"><i class="fas fa-file-signature"></i></span>
-                                                <input type="text" class="form-control" id="nombre_registrado"
+                                                <input type="text" class="form-control @error('nombre_registrado') is-invalid @enderror" id="nombre_registrado"
                                                        name="nombre_registrado" placeholder="Ej. Colonia S.A. de C.V."
                                                        value="{{ old('nombre_registrado') }}">
                                             </div>
+                                            @error('nombre_registrado')
+                                                <div class="text-danger small mt-1">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
                                         <div class="mb-3">
                                             <label class="form-label">Correo Electrónico</label>
                                             <div class="input-group">
                                                 <span class="input-group-text"><i class="fa-regular fa-envelope"></i></span>
-                                                <input type="email" class="form-control" id="email_com"
+                                                <input type="email" class="form-control @error('email') is-invalid @enderror" id="email_com"
                                                        name="email" placeholder="negocio@ejemplo.com"
                                                        value="{{ old('email') }}">
                                             </div>
+                                            @error('email')
+                                                <div class="text-danger small mt-1">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
                                         <div class="mb-3">
                                             <label class="form-label">Contraseña</label>
                                             <div class="input-group">
                                                 <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
-                                                <input type="password" class="form-control" id="password_com"
+                                                <input type="password" class="form-control @error('password') is-invalid @enderror" id="password_com"
                                                        name="password" placeholder="Mínimo 8 caracteres">
                                                 <button class="input-group-text" type="button" id="togglePwdCom"
                                                         style="cursor:pointer; border-left:none; background:#f8f9fa;">
                                                     <i class="fa-regular fa-eye-slash" id="eyeIconCom"></i>
                                                 </button>
                                             </div>
-                                            <small class="text-muted">La contraseña debe tener al menos <strong>8 caracteres</strong></small>
+                                            <small class="text-muted d-block mt-1">La contraseña debe tener al menos <strong>8 caracteres</strong></small>
+                                            @error('password')
+                                                <div class="text-danger small mt-1">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
                                         <div class="mb-4">
@@ -137,42 +149,54 @@
                                             <label class="form-label">NIT del Comercio</label>
                                             <div class="input-group">
                                                 <span class="input-group-text"><i class="fas fa-id-card"></i></span>
-                                                <input type="text" class="form-control" id="nit_com"
+                                                <input type="text" class="form-control @error('nit') is-invalid @enderror" id="nit_com"
                                                        name="nit" placeholder="00000000000000"
                                                        value="{{ old('nit') }}">
                                             </div>
+                                            @error('nit')
+                                                <div class="text-danger small mt-1">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
                                         <div class="mb-3">
                                             <label class="form-label">No. Autorización Sanitaria</label>
                                             <div class="input-group">
                                                 <span class="input-group-text"><i class="fas fa-certificate"></i></span>
-                                                <input type="text" class="form-control" id="sanitaria_com"
+                                                <input type="text" class="form-control @error('no_autorizacion_sanitaria') is-invalid @enderror" id="sanitaria_com"
                                                        name="no_autorizacion_sanitaria"
                                                        placeholder="Número de autorización sanitaria"
                                                        value="{{ old('no_autorizacion_sanitaria') }}">
                                             </div>
+                                            @error('no_autorizacion_sanitaria')
+                                                <div class="text-danger small mt-1">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
                                         <div class="mb-3">
                                             <label class="form-label">Teléfono de Contacto</label>
                                             <div class="input-group">
                                                 <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                                                <input type="text" class="form-control" id="telefono_com"
+                                                <input type="text" class="form-control @error('telefono') is-invalid @enderror" id="telefono_com"
                                                        name="telefono" placeholder="7000-0000"
                                                        value="{{ old('telefono') }}">
                                             </div>
+                                            @error('telefono')
+                                                <div class="text-danger small mt-1">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
                                         <div class="mb-4">
                                             <label class="form-label">Dirección</label>
                                             <div class="input-group">
                                                 <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
-                                                <input type="text" class="form-control" id="direccion_com"
+                                                <input type="text" class="form-control @error('direccion') is-invalid @enderror" id="direccion_com"
                                                        name="direccion"
                                                        placeholder="Calle, número, ciudad"
                                                        value="{{ old('direccion') }}">
                                             </div>
+                                            @error('direccion')
+                                                <div class="text-danger small mt-1">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
                                         <div class="row">
@@ -205,6 +229,27 @@
 
 @push('scripts')
 <script>
+    // Formato automático para NIT (0000-000000-000-0)
+    document.getElementById('nit_com').addEventListener('input', function (e) {
+        let value = e.target.value.replace(/\D/g, ''); // Elimina todo lo que no sea dígito
+        let formattedValue = '';
+
+        if (value.length > 0) {
+            formattedValue = value.substring(0, 4);
+        }
+        if (value.length > 4) {
+            formattedValue += '-' + value.substring(4, 10);
+        }
+        if (value.length > 10) {
+            formattedValue += '-' + value.substring(10, 13);
+        }
+        if (value.length > 13) {
+            formattedValue += '-' + value.substring(13, 14);
+        }
+
+        e.target.value = formattedValue;
+    });
+
     // Mostrar/Ocultar contraseña
     document.getElementById('togglePwdCom').addEventListener('click', function () {
         const pwd = document.getElementById('password_com');
